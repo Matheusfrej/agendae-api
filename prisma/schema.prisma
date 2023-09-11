@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                           String            @id @default(uuid())
+  name                         String
+  email                        String            @unique
+  profile_pic                  String            @default("no_pft")
+  reports_number               Decimal           @default(0)
+  created_at                   DateTime          @default(now())
+  Spin                         Spin[]
+  ParticipateSpin              ParticipateSpin[]
+  received_friend_solicitation Friendship[]      @relation("receives")
+  sent_friend_solicitation     Friendship[]      @relation("sends")
+  reported_by                  Report[]          @relation("reported_by")
+  reporter                     Report[]          @relation("reports")
+  blocked_by                   Block[]           @relation("blocked_by")
+  blocked                      Block[]           @relation("blocks")
+
+  @@map("users")
+}
+
+model Spin {
+  id              String            @id @default(uuid())
+  title           String
+  organizer_id    String
+  organizer       User              @relation(fields: [organizer_id], references: [id])
+  description     String?
+  place           String?
+  theme_color     String            @default("purple")
+  start_date      DateTime?
+  end_date        DateTime?
+  created_at      DateTime          @default(now())
+  ParticipateSpin ParticipateSpin[]
+
+  @@map("spins")
+}
+
+model ParticipateSpin {
+  id          String @id @default(uuid())
+  spin_id     String
+  spin        Spin   @relation(fields: [spin_id], references: [id])
+  received_id String
+  received    User   @relation(fields: [received_id], references: [id])
+  status      Int    @default(0)
+
+  @@map("participate_spin")
+}
+
+model Friendship {
+  sent        User   @relation("sends", fields: [sent_id], references: [id])
+  sent_id     String
+  received    User   @relation("receives", fields: [received_id], references: [id])
+  received_id String
+  status      Int    @default(0)
+
+  @@id([sent_id, received_id])
+  @@map("friendship")
+}
+
+model Report {
+  reporter    User    @relation("reports", fields: [reporter_id], references: [id])
+  reporter_id String
+  reported    User    @relation("reported_by", fields: [reported_id], references: [id])
+  reported_id String
+  reason      String?
+
+  @@id([reporter_id, reported_id])
+  @@map("report")
+}
+
+model Block {
+  blocker    User   @relation("blocks", fields: [blocker_id], references: [id])
+  blocker_id String
+  blocked    User   @relation("blocked_by", fields: [blocked_id], references: [id])
+  blocked_id String
+
+  @@id([blocker_id, blocked_id])
+  @@map("block")
+}
