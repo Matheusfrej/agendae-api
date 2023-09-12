@@ -1,4 +1,4 @@
-import { UsersRepository } from "@/repositories/users-repository-interface";
+import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
 import { hash } from "bcryptjs";
 
@@ -9,8 +9,8 @@ interface RegisterUseCaseRequest {
 }
 
 export class RegisterUseCase {
-  private usersRepository: UsersRepository;
-  constructor(usersRepository: UsersRepository) {
+  private usersRepository: UsersRepositoryInterface;
+  constructor(usersRepository: UsersRepositoryInterface) {
     this.usersRepository = usersRepository;
   }
 
