@@ -1,36 +1,27 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { InvalidUserError } from "@/use-cases/errors/invalid-user-error";
 import { User } from "@prisma/client";
-import { compare } from "bcryptjs";
 
-interface LoginUseCaseRequest {
-  email: string;
-  password: string;
+interface ProfileUseCaseRequest {
+  user_id: string;
 }
 
-interface LoginUseCaseResponse {
+interface ProfileUseCaseResponse {
   user: User;
 }
 
-export class LoginUseCase {
+export class ProfileUseCase {
   private usersRepository: UsersRepositoryInterface;
   constructor(usersRepository: UsersRepositoryInterface) {
     this.usersRepository = usersRepository;
   }
 
   async execute({
-    email,
-    password,
-  }: LoginUseCaseRequest): Promise<LoginUseCaseResponse> {
-    const user = await this.usersRepository.findByEmail(email);
+    user_id,
+  }: ProfileUseCaseRequest): Promise<ProfileUseCaseResponse> {
+    const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new InvalidUserError();
-    }
-
-    const passwordMatch = await compare(password, user.password);
-
-    if (!passwordMatch) {
       throw new InvalidUserError();
     }
 
