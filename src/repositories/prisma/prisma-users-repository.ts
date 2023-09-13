@@ -4,6 +4,14 @@ import { Prisma } from "@prisma/client";
 import { UsersRepositoryInterface } from "../users-repository-interface";
 
 export class PrismaUsersRepository implements UsersRepositoryInterface {
+  async create(data: Prisma.UserCreateInput) {
+    const user = await prisma.user.create({
+      data,
+    });
+
+    return user;
+  }
+
   async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: {
@@ -24,9 +32,14 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     return user;
   }
 
-  async create(data: Prisma.UserCreateInput) {
-    const user = await prisma.user.create({
-      data,
+  async findByIdAndUpdate(id: string, name: string) {
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+      },
     });
 
     return user;
