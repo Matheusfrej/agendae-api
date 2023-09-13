@@ -62,4 +62,23 @@ export class PrismaFriendshipRepository
 
     return friendship;
   }
+
+  async removeFriendship(user_id: string, friend_id: string) {
+    const friendship = prisma.friendship.deleteMany({
+      where: {
+        OR: [
+          {
+            sent_id: user_id,
+            received_id: friend_id,
+          },
+          {
+            sent_id: friend_id,
+            received_id: user_id,
+          },
+        ],
+      },
+    });
+
+    return friendship;
+  }
 }

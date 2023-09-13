@@ -1,23 +1,22 @@
-import { AddYourselfError } from "@/use-cases/errors/add-yourself-error";
-import { AlreadyFriendError } from "@/use-cases/errors/already-friend-error";
-import { AlreadySentFriendInviteError } from "@/use-cases/errors/already-sent-friend-invite-error";
+import { AlreadyNotFriendError } from "@/use-cases/errors/already-not-friend-error";
+import { RemoveFriendshipYourselfError } from "@/use-cases/errors/remove-friendship-yourself-error";
 import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
-import { makeAddFriendUseCase } from "@/use-cases/factories/make-add-friend-use-case";
+import { makerRemoveFriendUseCase } from "@/use-cases/factories/make-remove-friend-use-case";
 import { NextFunction, Request, Response } from "express";
 
-export async function addFriend(
+export async function removeFriend(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const addFriendUseCase = makeAddFriendUseCase();
+    const removeFriendUseCase = makerRemoveFriendUseCase();
 
     const { user_id } = req.body.user_id;
 
     const { friend_id } = req.body;
 
-    await addFriendUseCase.execute({
+    await removeFriendUseCase.execute({
       user_id,
       friend_id,
     });
@@ -28,9 +27,8 @@ export async function addFriend(
       return res.status(401).send({ message: err.message });
     }
     if (
-      err instanceof AddYourselfError ||
-      err instanceof AlreadyFriendError ||
-      err instanceof AlreadySentFriendInviteError
+      err instanceof RemoveFriendshipYourselfError ||
+      err instanceof AlreadyNotFriendError
     ) {
       return res.status(409).send({ message: err.message });
     }
