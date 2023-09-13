@@ -81,4 +81,23 @@ export class PrismaFriendshipRepository
 
     return friendship;
   }
+
+  async getFriendships(user_id: string) {
+    const friendship = prisma.friendship.findMany({
+      where: {
+        OR: [
+          {
+            sent_id: user_id,
+            status: 1,
+          },
+          {
+            received_id: user_id,
+            status: 1,
+          },
+        ],
+      },
+    });
+
+    return friendship;
+  }
 }

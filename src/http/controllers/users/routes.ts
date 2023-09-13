@@ -7,6 +7,7 @@ import { editProfile } from "./edit-profile";
 import { deleteProfile } from "./delete-profile";
 import { addFriend } from "./add-friend";
 import { removeFriend } from "./remove-friend";
+import { getFriends } from "./get-friends";
 
 export const usersRoutes = express.Router();
 
@@ -19,5 +20,7 @@ usersRoutes.delete("/profile", verifyJWT, deleteProfile);
 
 usersRoutes.post("/add-friend", verifyJWT, addFriend);
 usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
+
+usersRoutes.get("/friends", verifyJWT, getFriends);
 
 usersRoutes.get("/me", verifyJWT, profile);

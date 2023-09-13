@@ -54,4 +54,14 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
 
     return user;
   }
+
+  async findMany(ids: string[]) {
+    const users = await prisma.user.findMany({
+      where: {
+        id: { in: ids },
+      },
+    });
+
+    return users;
+  }
 }

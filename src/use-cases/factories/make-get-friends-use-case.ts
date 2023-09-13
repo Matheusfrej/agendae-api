@@ -1,14 +1,14 @@
 import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
 import { PrismaFriendshipRepository } from "@/repositories/prisma/prisma-friendship-repository";
-import { RemoveFriendUseCase } from "../remove-friend";
+import { GetFriendsUseCase } from "../get-friends";
 
-export function makerRemoveFriendUseCase() {
+export function makeGetFriendsUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
-  const removeFriendUseCase = new RemoveFriendUseCase(
+  const addFriendProfileUseCase = new GetFriendsUseCase(
     usersRepository,
     friendshipRepository,
   );
 
-  return removeFriendUseCase;
+  return addFriendProfileUseCase;
 }

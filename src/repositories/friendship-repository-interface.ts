@@ -15,4 +15,5 @@ export interface FriendshipRepositoryInterface {
     user_id: string,
     friend_id: string,
   ): Promise<Prisma.BatchPayload | null>;
+  getFriendships(user_id: string[]): Promise<Friendship[] | null>;
 }

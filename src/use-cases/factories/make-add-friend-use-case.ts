@@ -5,10 +5,10 @@ import { PrismaFriendshipRepository } from "@/repositories/prisma/prisma-friends
 export function makeAddFriendUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
-  const addFriendProfileUseCase = new AddFriendUseCase(
+  const addFriendUseCase = new AddFriendUseCase(
     usersRepository,
     friendshipRepository,
   );
 
-  return addFriendProfileUseCase;
+  return addFriendUseCase;
 }

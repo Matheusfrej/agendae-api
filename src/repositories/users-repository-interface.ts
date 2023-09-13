@@ -6,4 +6,5 @@ export interface UsersRepositoryInterface {
   findById(user_id: string): Promise<User | null>;
   findByIdAndDelete(user_id: string): Promise<User | null>;
   findByIdAndUpdate(user_id: string, name: string): Promise<User | null>;
+  findMany(users_id: string[]): Promise<User[] | null>;
 }
