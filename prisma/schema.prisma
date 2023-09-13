@@ -34,7 +34,7 @@ model Spin {
   id              String            @id @default(uuid())
   title           String
   organizer_id    String
-  organizer       User              @relation(fields: [organizer_id], references: [id])
+  organizer       User              @relation(fields: [organizer_id], references: [id], onDelete: Cascade)
   description     String?
   place           String?
   theme_color     String            @default("purple")
@@ -49,18 +49,18 @@ model Spin {
 model ParticipateSpin {
   id          String @id @default(uuid())
   spin_id     String
-  spin        Spin   @relation(fields: [spin_id], references: [id])
+  spin        Spin   @relation(fields: [spin_id], references: [id], onDelete: Cascade)
   received_id String
-  received    User   @relation(fields: [received_id], references: [id])
+  received    User   @relation(fields: [received_id], references: [id], onDelete: Cascade)
   status      Int    @default(0)
 
   @@map("participate_spin")
 }
 
 model Friendship {
-  sent        User   @relation("sends", fields: [sent_id], references: [id])
+  sent        User   @relation("sends", fields: [sent_id], references: [id], onDelete: Cascade)
   sent_id     String
-  received    User   @relation("receives", fields: [received_id], references: [id])
+  received    User   @relation("receives", fields: [received_id], references: [id], onDelete: Cascade)
   received_id String
   status      Int    @default(0)
 
@@ -69,9 +69,9 @@ model Friendship {
 }
 
 model Report {
-  reporter    User    @relation("reports", fields: [reporter_id], references: [id])
+  reporter    User    @relation("reports", fields: [reporter_id], references: [id], onDelete: Cascade)
   reporter_id String
-  reported    User    @relation("reported_by", fields: [reported_id], references: [id])
+  reported    User    @relation("reported_by", fields: [reported_id], references: [id], onDelete: Cascade)
   reported_id String
   reason      String?
 
@@ -80,9 +80,9 @@ model Report {
 }
 
 model Block {
-  blocker    User   @relation("blocks", fields: [blocker_id], references: [id])
+  blocker    User   @relation("blocks", fields: [blocker_id], references: [id], onDelete: Cascade)
   blocker_id String
-  blocked    User   @relation("blocked_by", fields: [blocked_id], references: [id])
+  blocked    User   @relation("blocked_by", fields: [blocked_id], references: [id], onDelete: Cascade)
   blocked_id String
 
   @@id([blocker_id, blocked_id])
