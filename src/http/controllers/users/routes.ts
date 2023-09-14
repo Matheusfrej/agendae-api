@@ -9,6 +9,7 @@ import { removeFriend } from "./remove-friend";
 import { getFriends } from "./get-friends";
 import { profile } from "./profile";
 import { acceptFriend } from "./accept-friend";
+import { denyFriend } from "./deny-friend";
 
 export const usersRoutes = express.Router();
 
@@ -22,6 +23,6 @@ usersRoutes.delete("/profile", verifyJWT, deleteProfile);
 
 usersRoutes.post("/add-friend", verifyJWT, addFriend);
 usersRoutes.post("/accept-friend", verifyJWT, acceptFriend);
-// usersRoutes.post("/deny-friend", verifyJWT, denyFriend);
+usersRoutes.post("/deny-friend", verifyJWT, denyFriend);
 usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
 usersRoutes.get("/friends", verifyJWT, getFriends);
