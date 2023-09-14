@@ -1,4 +1,5 @@
 import { AcceptFriendError } from "@/use-cases/errors/accept-friend-error";
+import { AddFriendBlockedError } from "@/use-cases/errors/add-friend-blocked-error";
 import { AddYourselfError } from "@/use-cases/errors/add-yourself-error";
 import { AlreadyFriendError } from "@/use-cases/errors/already-friend-error";
 import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
@@ -30,7 +31,8 @@ export async function acceptFriend(
     if (
       err instanceof AddYourselfError ||
       err instanceof AlreadyFriendError ||
-      err instanceof AcceptFriendError
+      err instanceof AcceptFriendError ||
+      err instanceof AddFriendBlockedError
     ) {
       return res.status(409).send({ message: err.message });
     }

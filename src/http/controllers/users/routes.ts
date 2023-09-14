@@ -10,6 +10,7 @@ import { getFriends } from "./get-friends";
 import { profile } from "./profile";
 import { acceptFriend } from "./accept-friend";
 import { denyFriend } from "./deny-friend";
+import { block } from "./block";
 
 export const usersRoutes = express.Router();
 
@@ -26,3 +27,5 @@ usersRoutes.post("/accept-friend", verifyJWT, acceptFriend);
 usersRoutes.post("/deny-friend", verifyJWT, denyFriend);
 usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
 usersRoutes.get("/friends", verifyJWT, getFriends);
+
+usersRoutes.post("/block", verifyJWT, block);

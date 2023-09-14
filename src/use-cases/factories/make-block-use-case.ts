@@ -1,17 +1,17 @@
 import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
 import { PrismaFriendshipRepository } from "@/repositories/prisma/prisma-friendship-repository";
-import { AcceptFriendUseCase } from "../accept-friend";
 import { PrismaBlockRepository } from "@/repositories/prisma/prisma-block-repository";
+import { BlockUseCase } from "../block-use-case";
 
-export function makeAcceptFriendUseCase() {
+export function makeBlockUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
   const blockRepository = new PrismaBlockRepository();
-  const addFriendUseCase = new AcceptFriendUseCase(
+  const blockUseCase = new BlockUseCase(
     usersRepository,
     friendshipRepository,
     blockRepository,
   );
 
-  return addFriendUseCase;
+  return blockUseCase;
 }

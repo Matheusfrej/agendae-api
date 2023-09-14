@@ -4,6 +4,8 @@ import { FriendshipRepositoryInterface } from "@/repositories/friendship-reposit
 import { AddYourselfError } from "./errors/add-yourself-error";
 import { AlreadyFriendError } from "./errors/already-friend-error";
 import { AcceptFriendError } from "./errors/accept-friend-error";
+import { BlockRepositoryInterface } from "@/repositories/block-repository-interface";
+import { AddFriendBlockedError } from "./errors/add-friend-blocked-error";
 
 interface AcceptFriendUseCaseRequest {
   user_id: string;
@@ -14,6 +16,7 @@ export class AcceptFriendUseCase {
   constructor(
     private usersRepository: UsersRepositoryInterface,
     private friendshipRepository: FriendshipRepositoryInterface,
+    private blockRepository: BlockRepositoryInterface,
   ) {}
 
   async execute({ user_id, friend_id }: AcceptFriendUseCaseRequest) {
@@ -31,6 +34,19 @@ export class AcceptFriendUseCase {
       user_id,
       friend_id,
     );
+
+    const isThereBlock = await this.blockRepository.isThereBlock(
+      user_id,
+      friend_id,
+    );
+
+    if (isThereBlock) {
+      if (friendship) {
+        await this.friendshipRepository.removeFriendship(user_id, friend_id);
+      }
+
+      throw new AddFriendBlockedError();
+    }
 
     // There isn't a friendship established
     if (!friendship) {
