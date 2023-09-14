@@ -8,6 +8,7 @@ import { addFriend } from "./add-friend";
 import { removeFriend } from "./remove-friend";
 import { getFriends } from "./get-friends";
 import { profile } from "./profile";
+import { acceptFriend } from "./accept-friend";
 
 export const usersRoutes = express.Router();
 
@@ -20,7 +21,7 @@ usersRoutes.put("/profile", verifyJWT, editProfile);
 usersRoutes.delete("/profile", verifyJWT, deleteProfile);
 
 usersRoutes.post("/add-friend", verifyJWT, addFriend);
-// usersRoutes.post("/accept-friend", verifyJWT, acceptFriend);
+usersRoutes.post("/accept-friend", verifyJWT, acceptFriend);
 // usersRoutes.post("/deny-friend", verifyJWT, denyFriend);
 usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
 usersRoutes.get("/friends", verifyJWT, getFriends);
