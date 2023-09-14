@@ -11,12 +11,15 @@ import { profile } from "./profile";
 import { acceptFriend } from "./accept-friend";
 import { denyFriend } from "./deny-friend";
 import { block } from "./block";
+import { getUserIdByEmail } from "./get-user-id-by-email";
 
 export const usersRoutes = express.Router();
 
 usersRoutes.post("/register", register);
 
 usersRoutes.post("/login", login);
+
+usersRoutes.get("/user-id/:email", getUserIdByEmail);
 
 usersRoutes.get("/profile/:id", verifyJWT, profile);
 usersRoutes.put("/profile", verifyJWT, editProfile);
