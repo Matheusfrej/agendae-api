@@ -14,10 +14,7 @@ interface RegisterUseCaseResponse {
 }
 
 export class RegisterUseCase {
-  private usersRepository: UsersRepositoryInterface;
-  constructor(usersRepository: UsersRepositoryInterface) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(private usersRepository: UsersRepositoryInterface) {}
 
   async execute({
     name,

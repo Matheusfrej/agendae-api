@@ -11,15 +11,10 @@ interface GetFriendsUseCaseResponse {
 }
 
 export class GetFriendsUseCase {
-  private usersRepository: UsersRepositoryInterface;
-  private friendshipRepository: FriendshipRepositoryInterface;
   constructor(
-    usersRepository: UsersRepositoryInterface,
-    friendshipRepository: FriendshipRepositoryInterface,
-  ) {
-    this.usersRepository = usersRepository;
-    this.friendshipRepository = friendshipRepository;
-  }
+    private usersRepository: UsersRepositoryInterface,
+    private friendshipRepository: FriendshipRepositoryInterface,
+  ) {}
 
   async execute({
     user_id,

@@ -6,10 +6,7 @@ interface DeleteProfileUseCaseRequest {
 }
 
 export class DeleteProfileUseCase {
-  private usersRepository: UsersRepositoryInterface;
-  constructor(usersRepository: UsersRepositoryInterface) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(private usersRepository: UsersRepositoryInterface) {}
 
   async execute({ user_id }: DeleteProfileUseCaseRequest) {
     const user = await this.usersRepository.findByIdAndDelete(user_id);

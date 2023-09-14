@@ -13,10 +13,7 @@ interface LoginUseCaseResponse {
 }
 
 export class LoginUseCase {
-  private usersRepository: UsersRepositoryInterface;
-  constructor(usersRepository: UsersRepositoryInterface) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(private usersRepository: UsersRepositoryInterface) {}
 
   async execute({
     email,

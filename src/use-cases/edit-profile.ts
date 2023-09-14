@@ -12,10 +12,7 @@ interface EditProfileUseCaseResponse {
 }
 
 export class EditProfileUseCase {
-  private usersRepository: UsersRepositoryInterface;
-  constructor(usersRepository: UsersRepositoryInterface) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(private usersRepository: UsersRepositoryInterface) {}
 
   async execute({
     user_id,
