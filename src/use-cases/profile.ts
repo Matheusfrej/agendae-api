@@ -3,8 +3,11 @@ import { User } from "@prisma/client";
 import { UserNotFoundError } from "./errors/user-not-found-error";
 import { SpinRepositoryInterface } from "@/repositories/spin-repository-interface";
 import { ParticipateSpinRepositoryInterface } from "@/repositories/participate-spin-repository-interface";
+import { FriendshipRepositoryInterface } from "@/repositories/friendship-repository-interface";
+import { BlockRepositoryInterface } from "@/repositories/block-repository-interface";
 
 interface ProfileUseCaseRequest {
+  my_id: string;
   user_id: string;
 }
 
@@ -17,16 +20,21 @@ interface UserStatistics {
 interface ProfileUseCaseResponse {
   user: User;
   statistics: UserStatistics;
+  is_friend?: boolean;
+  is_blocked?: boolean;
 }
 
 export class ProfileUseCase {
   constructor(
     private usersRepository: UsersRepositoryInterface,
+    private friendshipRepository: FriendshipRepositoryInterface,
+    private blockRepository: BlockRepositoryInterface,
     private spinsRepository: SpinRepositoryInterface,
     private participateSpinsRepository: ParticipateSpinRepositoryInterface,
   ) {}
 
   async execute({
+    my_id,
     user_id,
   }: ProfileUseCaseRequest): Promise<ProfileUseCaseResponse> {
     const user = await this.usersRepository.findById(user_id);
@@ -49,9 +57,27 @@ export class ProfileUseCase {
       invited_spins: invited_spins === null ? 0 : invited_spins,
     };
 
+    const friendship = await this.friendshipRepository.getFriendship(
+      my_id,
+      user_id,
+    );
+
+    if (user_id === my_id) {
+      return {
+        user,
+        statistics: userStatistics,
+      };
+    }
+
+    const is_friend = friendship !== null && friendship.status === 1;
+
+    const is_blocked = await this.blockRepository.didYouBlock(my_id, user_id);
+
     return {
       user,
       statistics: userStatistics,
+      is_friend,
+      is_blocked,
     };
   }
 }
