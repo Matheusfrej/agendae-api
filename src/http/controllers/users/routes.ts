@@ -12,6 +12,7 @@ import { acceptFriend } from "./accept-friend";
 import { denyFriend } from "./deny-friend";
 import { block } from "./block";
 import { getUserIdByEmail } from "./get-user-id-by-email";
+import { unblock } from "./unblock";
 
 export const usersRoutes = express.Router();
 
@@ -32,3 +33,4 @@ usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
 usersRoutes.get("/friends", verifyJWT, getFriends);
 
 usersRoutes.post("/block", verifyJWT, block);
+usersRoutes.post("/unblock", verifyJWT, unblock);

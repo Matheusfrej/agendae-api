@@ -1,7 +1,7 @@
 import { AlreadyNotFriendError } from "@/use-cases/errors/already-not-friend-error";
 import { RemoveFriendshipYourselfError } from "@/use-cases/errors/remove-friendship-yourself-error";
 import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
-import { makerRemoveFriendUseCase } from "@/use-cases/factories/make-remove-friend-use-case";
+import { makeRemoveFriendUseCase } from "@/use-cases/factories/make-remove-friend-use-case";
 import { NextFunction, Request, Response } from "express";
 
 export async function removeFriend(
@@ -10,7 +10,7 @@ export async function removeFriend(
   next: NextFunction,
 ) {
   try {
-    const removeFriendUseCase = makerRemoveFriendUseCase();
+    const removeFriendUseCase = makeRemoveFriendUseCase();
 
     const { user_id } = req.body.user_id;
 
