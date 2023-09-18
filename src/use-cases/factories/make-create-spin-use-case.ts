@@ -3,7 +3,7 @@ import { CreateSpinUseCase } from "../create-spin";
 
 export function makeCreateSpinUseCase() {
   const spinRepository = new PrismaSpinRepository();
-  const reportUseCase = new CreateSpinUseCase(spinRepository);
+  const createSpinUseCase = new CreateSpinUseCase(spinRepository);
 
-  return reportUseCase;
+  return createSpinUseCase;
 }
