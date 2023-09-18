@@ -1,4 +1,8 @@
-import { SpinRepositoryInterface } from "../spin-repository-interface";
+import { Prisma, Spin } from "@prisma/client";
+import {
+  CreateSpinRepositoryInterface,
+  SpinRepositoryInterface,
+} from "../spin-repository-interface";
 import { prisma } from "@/lib/prisma";
 
 export class PrismaSpinRepository implements SpinRepositoryInterface {
@@ -36,5 +40,13 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
     });
 
     return spinsCount;
+  }
+
+  async createSpin(data: CreateSpinRepositoryInterface): Promise<Spin | null> {
+    const spin = await prisma.spin.create({
+      data,
+    });
+
+    return spin;
   }
 }

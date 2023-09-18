@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { usersRoutes } from "./http/controllers/users/routes";
 import { ZodError } from "zod";
 import { env } from "./env";
+import { spinsRoutes } from "./http/controllers/spins/routes";
 
 export const app = express();
 
@@ -29,5 +30,6 @@ const errorHandler = (
 
 app.use(express.json());
 app.use(usersRoutes);
+app.use(spinsRoutes);
 
 app.use(errorHandler);
