@@ -13,6 +13,7 @@ import { denyFriend } from "./deny-friend";
 import { block } from "./block";
 import { getUserIdByEmail } from "./get-user-id-by-email";
 import { unblock } from "./unblock";
+import { report } from "./report";
 
 export const usersRoutes = express.Router();
 
@@ -34,3 +35,5 @@ usersRoutes.get("/friends", verifyJWT, getFriends);
 
 usersRoutes.post("/block", verifyJWT, block);
 usersRoutes.post("/unblock", verifyJWT, unblock);
+
+usersRoutes.post("/report", verifyJWT, report);

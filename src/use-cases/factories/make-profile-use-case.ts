@@ -4,6 +4,7 @@ import { PrismaSpinRepository } from "@/repositories/prisma/prisma-spin-reposito
 import { PrismaParticipateSpinRepository } from "@/repositories/prisma/prisma-participate-spin-repository";
 import { PrismaFriendshipRepository } from "@/repositories/prisma/prisma-friendship-repository";
 import { PrismaBlockRepository } from "@/repositories/prisma/prisma-block-repository";
+import { PrismaReportRepository } from "@/repositories/prisma/prisma-report-repository";
 
 export function makeProfileUseCase() {
   const usersRepository = new PrismaUsersRepository();
@@ -11,12 +12,14 @@ export function makeProfileUseCase() {
   const blockRepository = new PrismaBlockRepository();
   const spinsRepository = new PrismaSpinRepository();
   const participateSpinRepository = new PrismaParticipateSpinRepository();
+  const reportRepository = new PrismaReportRepository();
   const profileUseCase = new ProfileUseCase(
     usersRepository,
     friendshipRepository,
     blockRepository,
     spinsRepository,
     participateSpinRepository,
+    reportRepository,
   );
 
   return profileUseCase;

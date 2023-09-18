@@ -5,6 +5,7 @@ import { SpinRepositoryInterface } from "@/repositories/spin-repository-interfac
 import { ParticipateSpinRepositoryInterface } from "@/repositories/participate-spin-repository-interface";
 import { FriendshipRepositoryInterface } from "@/repositories/friendship-repository-interface";
 import { BlockRepositoryInterface } from "@/repositories/block-repository-interface";
+import { ReportRepositoryInterface } from "@/repositories/report-repository-interface";
 
 interface ProfileUseCaseRequest {
   my_id: string;
@@ -22,6 +23,7 @@ interface ProfileUseCaseResponse {
   statistics: UserStatistics;
   is_friend?: boolean;
   is_blocked?: boolean;
+  is_reported?: boolean;
 }
 
 export class ProfileUseCase {
@@ -31,6 +33,7 @@ export class ProfileUseCase {
     private blockRepository: BlockRepositoryInterface,
     private spinsRepository: SpinRepositoryInterface,
     private participateSpinsRepository: ParticipateSpinRepositoryInterface,
+    private reportRepository: ReportRepositoryInterface,
   ) {}
 
   async execute({
@@ -73,11 +76,17 @@ export class ProfileUseCase {
 
     const is_blocked = await this.blockRepository.didYouBlock(my_id, user_id);
 
+    const is_reported = await this.reportRepository.didYouReport(
+      my_id,
+      user_id,
+    );
+
     return {
       user,
       statistics: userStatistics,
       is_friend,
       is_blocked,
+      is_reported,
     };
   }
 }

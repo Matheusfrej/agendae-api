@@ -10,7 +10,7 @@ export async function editProfile(
 ) {
   try {
     const editProfileBodySchema = z.object({
-      name: z.string(),
+      name: z.string().max(100),
     });
 
     const { name } = editProfileBodySchema.parse(req.body);

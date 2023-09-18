@@ -9,7 +9,7 @@ export async function profile(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     const { user_id } = req.body.user_id;
 
-    const { user, statistics, is_friend, is_blocked } =
+    const { user, statistics, is_friend, is_blocked, is_reported } =
       await profileUseCase.execute({
         my_id: user_id,
         user_id: id,
@@ -19,6 +19,7 @@ export async function profile(req: Request, res: Response, next: NextFunction) {
       user: { ...user, password: undefined },
       is_friend,
       is_blocked,
+      is_reported,
       statistics,
     });
   } catch (err) {
