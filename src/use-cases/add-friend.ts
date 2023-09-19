@@ -56,20 +56,12 @@ export class AddFriendUseCase {
 
     // There isn't a friendship established
     if (!friendship) {
-      const newFriendship = await this.friendshipRepository.createFriendship(
-        user_id,
-        friend_id,
-      );
+      await this.friendshipRepository.createFriendship(user_id, friend_id);
 
-      return newFriendship;
       // the friend had already sent an invite and it was pending
     } else if (friendship.sent_id === friend_id && friendship.status === 0) {
-      const newFriendship = await this.friendshipRepository.acceptFriendship(
-        user_id,
-        friend_id,
-      );
+      await this.friendshipRepository.acceptFriendship(user_id, friend_id);
 
-      return newFriendship;
       // The user already sent an invite and its pending
     } else if (friendship.sent_id === user_id && friendship.status === 0) {
       throw new AlreadySentFriendInviteError();

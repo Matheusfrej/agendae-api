@@ -13,7 +13,7 @@ export function makeProfileUseCase() {
   const spinsRepository = new PrismaSpinRepository();
   const participateSpinRepository = new PrismaParticipateSpinRepository();
   const reportRepository = new PrismaReportRepository();
-  const profileUseCase = new ProfileUseCase(
+  return new ProfileUseCase(
     usersRepository,
     friendshipRepository,
     blockRepository,
@@ -21,6 +21,4 @@ export function makeProfileUseCase() {
     participateSpinRepository,
     reportRepository,
   );
-
-  return profileUseCase;
 }

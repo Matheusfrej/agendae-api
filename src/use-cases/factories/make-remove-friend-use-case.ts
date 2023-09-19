@@ -5,10 +5,5 @@ import { RemoveFriendUseCase } from "../remove-friend";
 export function makeRemoveFriendUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
-  const removeFriendUseCase = new RemoveFriendUseCase(
-    usersRepository,
-    friendshipRepository,
-  );
-
-  return removeFriendUseCase;
+  return new RemoveFriendUseCase(usersRepository, friendshipRepository);
 }

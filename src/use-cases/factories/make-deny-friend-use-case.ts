@@ -5,10 +5,5 @@ import { DenyFriendUseCase } from "../deny-friend";
 export function makeDenyFriendUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
-  const denyFriendUseCase = new DenyFriendUseCase(
-    usersRepository,
-    friendshipRepository,
-  );
-
-  return denyFriendUseCase;
+  return new DenyFriendUseCase(usersRepository, friendshipRepository);
 }

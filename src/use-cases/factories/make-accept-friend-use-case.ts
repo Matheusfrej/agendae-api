@@ -7,11 +7,9 @@ export function makeAcceptFriendUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
   const blockRepository = new PrismaBlockRepository();
-  const addFriendUseCase = new AcceptFriendUseCase(
+  return new AcceptFriendUseCase(
     usersRepository,
     friendshipRepository,
     blockRepository,
   );
-
-  return addFriendUseCase;
 }

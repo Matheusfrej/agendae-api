@@ -3,7 +3,5 @@ import { EditProfileUseCase } from "../edit-profile";
 
 export function makeEditProfileUseCase() {
   const usersRepository = new PrismaUsersRepository();
-  const editProfileUseCase = new EditProfileUseCase(usersRepository);
-
-  return editProfileUseCase;
+  return new EditProfileUseCase(usersRepository);
 }

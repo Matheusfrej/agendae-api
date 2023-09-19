@@ -5,7 +5,5 @@ import { ReportUseCase } from "../report";
 export function makeReportUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const reportRepository = new PrismaReportRepository();
-  const reportUseCase = new ReportUseCase(usersRepository, reportRepository);
-
-  return reportUseCase;
+  return new ReportUseCase(usersRepository, reportRepository);
 }

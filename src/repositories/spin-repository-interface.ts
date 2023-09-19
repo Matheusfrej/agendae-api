@@ -14,4 +14,5 @@ export interface SpinRepositoryInterface {
   getTotalSpinsNumber(organizer_id: string): Promise<number | null>;
   getPastSpinsNumber(organizer_id: string): Promise<number | null>;
   createSpin(data: CreateSpinRepositoryInterface): Promise<Spin | null>;
+  findById(spin_id: string): Promise<Spin | null>;
 }

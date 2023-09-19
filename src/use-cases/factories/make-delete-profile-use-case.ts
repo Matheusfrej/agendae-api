@@ -3,7 +3,5 @@ import { DeleteProfileUseCase } from "../delete-profile";
 
 export function makeDeleteProfileUseCase() {
   const usersRepository = new PrismaUsersRepository();
-  const deleteProfileUseCase = new DeleteProfileUseCase(usersRepository);
-
-  return deleteProfileUseCase;
+  return new DeleteProfileUseCase(usersRepository);
 }

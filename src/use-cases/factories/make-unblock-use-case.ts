@@ -5,7 +5,5 @@ import { UnblockUseCase } from "../unblock";
 export function makeUnblockUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const blockRepository = new PrismaBlockRepository();
-  const unblockUseCase = new UnblockUseCase(usersRepository, blockRepository);
-
-  return unblockUseCase;
+  return new UnblockUseCase(usersRepository, blockRepository);
 }

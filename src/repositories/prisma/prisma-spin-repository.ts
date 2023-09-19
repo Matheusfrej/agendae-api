@@ -49,4 +49,14 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
 
     return spin;
   }
+
+  async findById(id: string) {
+    const spin = await prisma.spin.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return spin;
+  }
 }

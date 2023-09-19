@@ -7,11 +7,9 @@ export function makeBlockUseCase() {
   const usersRepository = new PrismaUsersRepository();
   const friendshipRepository = new PrismaFriendshipRepository();
   const blockRepository = new PrismaBlockRepository();
-  const blockUseCase = new BlockUseCase(
+  return new BlockUseCase(
     usersRepository,
     friendshipRepository,
     blockRepository,
   );
-
-  return blockUseCase;
 }
