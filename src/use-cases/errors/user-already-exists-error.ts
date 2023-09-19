@@ -1,5 +1,7 @@
-export class UserAlreadyExistsError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class UserAlreadyExistsError extends PreConditionalError {
   constructor() {
-    super("E-mail já possui uma conta.");
+    super(409, "E-mail já possui uma conta.");
   }
 }

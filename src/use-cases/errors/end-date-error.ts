@@ -1,5 +1,7 @@
-export class EndDateError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class EndDateError extends PreConditionalError {
   constructor() {
-    super("A data de fim não pode ser antes da data de início");
+    super(400, "A data de fim não pode ser antes da data de início");
   }
 }

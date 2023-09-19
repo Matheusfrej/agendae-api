@@ -1,5 +1,7 @@
-export class AlreadyReportedError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AlreadyReportedError extends PreConditionalError {
   constructor() {
-    super("Você já denunciou esse usuário");
+    super(409, "Você já denunciou esse usuário");
   }
 }

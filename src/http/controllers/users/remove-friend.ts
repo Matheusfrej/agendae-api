@@ -1,6 +1,4 @@
-import { AlreadyNotFriendError } from "@/use-cases/errors/already-not-friend-error";
-import { RemoveFriendshipYourselfError } from "@/use-cases/errors/remove-friendship-yourself-error";
-import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
+import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeRemoveFriendUseCase } from "@/use-cases/factories/make-remove-friend-use-case";
 import { NextFunction, Request, Response } from "express";
 
@@ -23,14 +21,8 @@ export async function removeFriend(
 
     return res.status(200).send();
   } catch (err) {
-    if (err instanceof UserNotFoundError) {
-      return res.status(401).send({ message: err.message });
-    }
-    if (
-      err instanceof RemoveFriendshipYourselfError ||
-      err instanceof AlreadyNotFriendError
-    ) {
-      return res.status(409).send({ message: err.message });
+    if (err instanceof PreConditionalError) {
+      return res.status(err.httpCode).send({ message: err.message });
     }
 
     return next(err);

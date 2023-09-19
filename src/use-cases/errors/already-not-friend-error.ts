@@ -1,5 +1,7 @@
-export class AlreadyNotFriendError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AlreadyNotFriendError extends PreConditionalError {
   constructor(name: string) {
-    super(`Você já não é amigo de ${name}`);
+    super(409, `Você já não é amigo de ${name}`);
   }
 }

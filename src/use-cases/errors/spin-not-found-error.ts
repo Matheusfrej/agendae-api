@@ -1,5 +1,7 @@
-export class SpinNotFoundError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class SpinNotFoundError extends PreConditionalError {
   constructor() {
-    super("Rolê não encontrado");
+    super(404, "Rolê não encontrado");
   }
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { NextFunction, Request, Response } from "express";
-import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
 import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
+import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 
 export async function register(
   req: Request,
@@ -24,13 +24,13 @@ export async function register(
       email,
       password,
     });
+
+    return res.status(201).send();
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
-      return res.status(409).send({ message: err.message });
+    if (err instanceof PreConditionalError) {
+      return res.status(err.httpCode).send({ message: err.message });
     }
 
     return next(err);
   }
-
-  return res.status(201).send();
 }

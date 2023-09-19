@@ -1,5 +1,7 @@
-export class AccessDeniedError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AccessDeniedError extends PreConditionalError {
   constructor() {
-    super("Acesso negado");
+    super(401, "Acesso negado");
   }
 }

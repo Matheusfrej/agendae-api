@@ -1,5 +1,7 @@
-export class RemoveFriendshipYourselfError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class RemoveFriendshipYourselfError extends PreConditionalError {
   constructor() {
-    super("Não é possível desfazer amizade com você mesmo");
+    super(409, "Não é possível desfazer amizade com você mesmo");
   }
 }

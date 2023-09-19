@@ -1,5 +1,7 @@
-export class UnblockYourselfError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class UnblockYourselfError extends PreConditionalError {
   constructor() {
-    super("Você não pode desbloquear você mesmo");
+    super(409, "Você não pode desbloquear você mesmo");
   }
 }

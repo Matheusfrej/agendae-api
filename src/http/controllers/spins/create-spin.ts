@@ -1,5 +1,4 @@
-import { CreateSpinError } from "@/use-cases/errors/create-spin-error";
-import { EndDateError } from "@/use-cases/errors/end-date-error";
+import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeCreateSpinUseCase } from "@/use-cases/factories/make-create-spin-use-case";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
@@ -40,8 +39,8 @@ export async function createSpin(
 
     return res.status(201).send(spin);
   } catch (err) {
-    if (err instanceof CreateSpinError || err instanceof EndDateError) {
-      return res.status(400).send({ message: err.message });
+    if (err instanceof PreConditionalError) {
+      return res.status(err.httpCode).send({ message: err.message });
     }
 
     return next(err);

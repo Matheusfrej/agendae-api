@@ -1,5 +1,7 @@
-export class AlreadyBlockError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AlreadyBlockError extends PreConditionalError {
   constructor() {
-    super("Você já bloqueou esse usuário");
+    super(409, "Você já bloqueou esse usuário");
   }
 }

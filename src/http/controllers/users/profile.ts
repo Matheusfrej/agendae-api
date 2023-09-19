@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
+import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeProfileUseCase } from "@/use-cases/factories/make-profile-use-case";
 import { NextFunction, Request, Response } from "express";
 
@@ -23,8 +23,8 @@ export async function profile(req: Request, res: Response, next: NextFunction) {
       statistics,
     });
   } catch (err) {
-    if (err instanceof UserNotFoundError) {
-      return res.status(401).send({ message: err.message });
+    if (err instanceof PreConditionalError) {
+      return res.status(err.httpCode).send({ message: err.message });
     }
 
     return next(err);

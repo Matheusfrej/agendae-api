@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
+import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeGetFriendsUseCase } from "@/use-cases/factories/make-get-friends-use-case";
 import { NextFunction, Request, Response } from "express";
 
@@ -22,8 +22,8 @@ export async function getFriends(
 
     return res.status(200).send({ friends: friendsWithoutPassword });
   } catch (err) {
-    if (err instanceof UserNotFoundError) {
-      return res.status(401).send({ message: err.message });
+    if (err instanceof PreConditionalError) {
+      return res.status(err.httpCode).send({ message: err.message });
     }
 
     return next(err);

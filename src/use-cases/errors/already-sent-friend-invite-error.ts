@@ -1,5 +1,7 @@
-export class AlreadySentFriendInviteError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AlreadySentFriendInviteError extends PreConditionalError {
   constructor() {
-    super("Você já enviou uma solicitação para esse usuário");
+    super(409, "Você já enviou uma solicitação para esse usuário");
   }
 }

@@ -1,5 +1,7 @@
-export class BlockYourselfError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class BlockYourselfError extends PreConditionalError {
   constructor() {
-    super("Você não pode bloquear a si mesmo");
+    super(409, "Você não pode bloquear a si mesmo");
   }
 }

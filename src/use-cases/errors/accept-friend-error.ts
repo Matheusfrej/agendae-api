@@ -1,5 +1,7 @@
-export class AcceptFriendError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class AcceptFriendError extends PreConditionalError {
   constructor() {
-    super("Houve um erro ao aceitar a solicitação de amizade");
+    super(409, "Houve um erro ao aceitar a solicitação de amizade");
   }
 }

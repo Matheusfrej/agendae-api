@@ -1,5 +1,7 @@
-export class InvalidUserError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class InvalidUserError extends PreConditionalError {
   constructor() {
-    super("Email ou senha inválidos");
+    super(401, "Email ou senha inválidos");
   }
 }

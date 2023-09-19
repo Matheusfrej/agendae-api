@@ -1,5 +1,7 @@
-export class CreateSpinError extends Error {
+import { PreConditionalError } from "./pre-conditional-error";
+
+export class CreateSpinError extends PreConditionalError {
   constructor() {
-    super("Houve um erro ao criar o rolê");
+    super(400, "Houve um erro ao criar o rolê");
   }
 }
