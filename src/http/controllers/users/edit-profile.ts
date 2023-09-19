@@ -1,4 +1,5 @@
 import { InvalidUserError } from "@/use-cases/errors/invalid-user-error";
+import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
 import { makeEditProfileUseCase } from "@/use-cases/factories/make-edit-profile-use-case";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
@@ -26,8 +27,8 @@ export async function editProfile(
 
     return res.status(200).send({ user: { ...user, password: undefined } });
   } catch (err) {
-    if (err instanceof InvalidUserError) {
-      return res.status(401).send({ message: err.message });
+    if (err instanceof UserNotFoundError) {
+      return res.status(404).send({ message: err.message });
     }
 
     return next(err);

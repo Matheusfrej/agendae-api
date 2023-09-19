@@ -1,16 +1,17 @@
-import { CreateSpinError } from "@/use-cases/errors/create-spin-error";
+import { AccessDeniedError } from "@/use-cases/errors/access-denied-error";
 import { EndDateError } from "@/use-cases/errors/end-date-error";
-import { makeCreateSpinUseCase } from "@/use-cases/factories/make-create-spin-use-case";
+import { SpinNotFoundError } from "@/use-cases/errors/spin-not-found-error";
+import { makeEditSpinUseCase } from "@/use-cases/factories/make-edit-spin-use-case";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
-export async function createSpin(
+export async function editSpin(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const spinBodySchema = z.object({
+    const editSpinBodySchema = z.object({
       title: z.string().max(60),
       theme_color: z
         .enum(["purple", "green", "red", "yellow", "cyan", "blue"])
@@ -21,14 +22,16 @@ export async function createSpin(
       end_date: z.coerce.date().optional(),
     });
 
-    const spinUseCase = makeCreateSpinUseCase();
+    const spinUseCase = makeEditSpinUseCase();
 
     const { user_id } = req.body.user_id;
+    const { id } = req.params;
 
     const { title, theme_color, description, place, start_date, end_date } =
-      spinBodySchema.parse(req.body);
+      editSpinBodySchema.parse(req.body);
 
     const spin = await spinUseCase.execute({
+      id,
       title,
       organizer_id: user_id,
       theme_color,
@@ -38,10 +41,12 @@ export async function createSpin(
       end_date,
     });
 
-    return res.status(201).send(spin);
+    return res.status(200).send(spin);
   } catch (err) {
-    if (err instanceof CreateSpinError || err instanceof EndDateError) {
-      return res.status(400).send({ message: err.message });
+    if (err instanceof SpinNotFoundError || err instanceof AccessDeniedError) {
+      return res.status(404).send({ message: err.message });
+    } else if (err instanceof EndDateError) {
+      return res.status(401).send({ message: err.message });
     }
 
     return next(err);

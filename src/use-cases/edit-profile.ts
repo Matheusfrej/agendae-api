@@ -1,6 +1,6 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
-import { InvalidUserError } from "@/use-cases/errors/invalid-user-error";
 import { User } from "@prisma/client";
+import { UserNotFoundError } from "./errors/user-not-found-error";
 
 interface EditProfileUseCaseRequest {
   user_id: string;
@@ -21,7 +21,7 @@ export class EditProfileUseCase {
     const user = await this.usersRepository.findByIdAndUpdate(user_id, name);
 
     if (!user) {
-      throw new InvalidUserError();
+      throw new UserNotFoundError();
     }
 
     return {

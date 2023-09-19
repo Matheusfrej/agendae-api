@@ -2,6 +2,7 @@ import { Spin } from "@prisma/client";
 import {
   CreateSpinRepositoryInterface,
   SpinRepositoryInterface,
+  UpdateSpinRepositoryInterface,
 } from "../spin-repository-interface";
 import { prisma } from "@/lib/prisma";
 
@@ -54,6 +55,27 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
     const spin = await prisma.spin.findUnique({
       where: {
         id,
+      },
+    });
+
+    return spin;
+  }
+
+  findByIdAndUpdate(
+    spin_id: string,
+    data: UpdateSpinRepositoryInterface,
+  ): Promise<Spin | null> {
+    const spin = prisma.spin.update({
+      where: {
+        id: spin_id,
+      },
+      data: {
+        title: data.title,
+        description: data.description,
+        theme_color: data.theme_color,
+        place: data.place,
+        start_date: data.start_date,
+        end_date: data.end_date,
       },
     });
 
