@@ -16,7 +16,6 @@ model User {
   email                        String            @unique
   password                     String
   profile_pic                  String            @default("no_pft")
-  reports_number               Decimal           @default(0)
   created_at                   DateTime          @default(now())
   Spin                         Spin[]
   ParticipateSpin              ParticipateSpin[]

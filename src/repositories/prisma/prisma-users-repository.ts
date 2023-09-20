@@ -64,4 +64,63 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
 
     return users;
   }
+
+  async findAllUserSpins(id: string) {
+    const spins = await prisma.user.findMany({
+      where: {
+        id,
+      },
+      select: {
+        Spin: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            start_date: true,
+            end_date: true,
+            place: true,
+            theme_color: true,
+            organizer: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                profile_pic: true,
+                created_at: true,
+              },
+            },
+          },
+        },
+        ParticipateSpin: {
+          where: {
+            status: 1,
+          },
+          select: {
+            spin: {
+              select: {
+                id: true,
+                title: true,
+                description: true,
+                start_date: true,
+                end_date: true,
+                place: true,
+                theme_color: true,
+                organizer: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profile_pic: true,
+                    created_at: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return spins;
+  }
 }

@@ -7,4 +7,6 @@ export interface UsersRepositoryInterface {
   findByIdAndDelete(user_id: string): Promise<User | null>;
   findByIdAndUpdate(user_id: string, name: string): Promise<User | null>;
   findMany(users_id: string[]): Promise<User[] | null>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  findAllUserSpins(user_id: string): Promise<any>;
 }
