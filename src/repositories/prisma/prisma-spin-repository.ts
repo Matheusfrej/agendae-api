@@ -81,4 +81,14 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
 
     return spin;
   }
+
+  async findByIdAndDelete(id: string) {
+    const spin = await prisma.spin.delete({
+      where: {
+        id,
+      },
+    });
+
+    return spin;
+  }
 }

@@ -28,4 +28,5 @@ export interface SpinRepositoryInterface {
     spin_id: string,
     data: UpdateSpinRepositoryInterface,
   ): Promise<Spin | null>;
+  findByIdAndDelete(spin_id: string): Promise<Spin | null>;
 }
