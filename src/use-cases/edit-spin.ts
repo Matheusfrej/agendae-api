@@ -1,8 +1,10 @@
 import { SpinRepositoryInterface } from "@/repositories/spin-repository-interface";
-import { Spin } from "@prisma/client";
+import { Spin, User } from "@prisma/client";
 import { EndDateError } from "./errors/end-date-error";
 import { SpinNotFoundError } from "./errors/spin-not-found-error";
 import { AccessDeniedError } from "./errors/access-denied-error";
+import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
+import { UserNotFoundError } from "./errors/user-not-found-error";
 
 interface EditSpinUseCaseRequest {
   id: string;
@@ -17,10 +19,14 @@ interface EditSpinUseCaseRequest {
 
 interface EditSpinUseCaseResponse {
   spin: Spin;
+  organizer: User;
 }
 
 export class EditSpinUseCase {
-  constructor(private spinRepository: SpinRepositoryInterface) {}
+  constructor(
+    private usersRepository: UsersRepositoryInterface,
+    private spinRepository: SpinRepositoryInterface,
+  ) {}
 
   async execute({
     id,
@@ -63,6 +69,12 @@ export class EditSpinUseCase {
       throw new SpinNotFoundError();
     }
 
-    return { spin: newSpin };
+    const organizer = await this.usersRepository.findById(newSpin.organizer_id);
+
+    if (!organizer) {
+      throw new UserNotFoundError();
+    }
+
+    return { spin: newSpin, organizer };
   }
 }

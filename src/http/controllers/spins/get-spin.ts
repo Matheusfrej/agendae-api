@@ -8,11 +8,17 @@ export async function getSpin(req: Request, res: Response, next: NextFunction) {
 
     const { id } = req.params;
 
-    const spin = await spinUseCase.execute({
+    const { spin, organizer } = await spinUseCase.execute({
       spin_id: id,
     });
 
-    return res.status(200).send(spin);
+    const response = {
+      ...spin,
+      organizer_id: undefined,
+      organizer: { ...organizer, password: undefined },
+    };
+
+    return res.status(200).send(response);
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });
