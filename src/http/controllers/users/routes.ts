@@ -14,12 +14,15 @@ import { block } from "./block";
 import { getUserIdByEmail } from "./get-user-id-by-email";
 import { unblock } from "./unblock";
 import { report } from "./report";
+import { changePassword } from "./change-password";
 
 export const usersRoutes = express.Router();
 
 usersRoutes.post("/register", register);
 
 usersRoutes.post("/login", login);
+
+usersRoutes.post("/change-password", changePassword);
 
 usersRoutes.get("/user-id/:email", getUserIdByEmail);
 
