@@ -16,6 +16,7 @@ export class GetSpinsUseCase {
 
     const { Spin, ParticipateSpin } = spins[0];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formattedParticipateSpin = ParticipateSpin.map((spin: any) => {
       return spin.spin;
     });
