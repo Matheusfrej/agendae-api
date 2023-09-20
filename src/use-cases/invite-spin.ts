@@ -6,6 +6,7 @@ import { UserNotFoundError } from "./errors/user-not-found-error";
 import { AccessDeniedError } from "./errors/access-denied-error";
 import { UserAlreadyInvitedError } from "./errors/user-already-invited-error";
 import { UserAlreadyInSpinError } from "./errors/user-already-in-spin-error";
+import { InviteYourselfError } from "./errors/invite-yourself-error";
 
 interface InviteSpinUseCaseRequest {
   organizer_id: string;
@@ -25,6 +26,10 @@ export class InviteSpinUseCase {
     spin_id,
     user_invited_id,
   }: InviteSpinUseCaseRequest) {
+    if (organizer_id === user_invited_id) {
+      throw new InviteYourselfError();
+    }
+
     const user = await this.usersRepository.findById(user_invited_id);
 
     if (!user) {
