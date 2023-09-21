@@ -113,4 +113,14 @@ export class PrismaParticipateSpinRepository
 
     return invite;
   }
+
+  async removeInvite(id: string): Promise<ParticipateSpin | null> {
+    const invite = await prisma.participateSpin.delete({
+      where: {
+        id,
+      },
+    });
+
+    return invite;
+  }
 }

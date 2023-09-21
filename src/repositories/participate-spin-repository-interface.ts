@@ -8,4 +8,5 @@ export interface ParticipateSpinRepositoryInterface {
   inviteUserAgain(participate_spin_id: string): Promise<ParticipateSpin | null>;
   acceptInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
   denyInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
+  removeInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
 }
