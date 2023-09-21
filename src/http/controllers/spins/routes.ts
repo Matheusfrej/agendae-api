@@ -7,6 +7,7 @@ import { deleteSpin } from "./delete-spin";
 import { getSpins } from "./get-spins";
 import { inviteSpin } from "./invite-spin";
 import { acceptInvite } from "./accept-invite";
+import { denyInvite } from "./deny-invite";
 
 export const spinsRoutes = express.Router();
 
@@ -18,4 +19,4 @@ spinsRoutes.delete("/spins/:id", verifyJWT, deleteSpin);
 
 spinsRoutes.post("/spins/invite", verifyJWT, inviteSpin);
 spinsRoutes.post("/spins/invite/accept", verifyJWT, acceptInvite);
-// spinsRoutes.post("/spins/invite/deny", verifyJWT, denyInvite);
+spinsRoutes.post("/spins/invite/deny", verifyJWT, denyInvite);

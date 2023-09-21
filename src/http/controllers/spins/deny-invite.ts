@@ -1,25 +1,25 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
-import { makeAcceptInviteUseCase } from "@/use-cases/factories/make-accept-invite-use-case";
+import { makeDenyInviteUseCase } from "@/use-cases/factories/make-deny-invite-use-case";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
-export async function acceptInvite(
+export async function denyInvite(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const acceptSpinBodySchema = z.object({
+    const denySpinBodySchema = z.object({
       spin_id: z.string(),
     });
 
-    const acceptInviteUseCase = makeAcceptInviteUseCase();
+    const denyInviteUseCase = makeDenyInviteUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { spin_id } = acceptSpinBodySchema.parse(req.body);
+    const { spin_id } = denySpinBodySchema.parse(req.body);
 
-    await acceptInviteUseCase.execute({
+    await denyInviteUseCase.execute({
       spin_id,
       user_invited_id: user_id,
     });
