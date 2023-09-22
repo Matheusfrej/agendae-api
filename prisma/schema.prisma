@@ -17,6 +17,7 @@ model User {
   password                     String
   profile_pic                  String            @default("no_pft")
   created_at                   DateTime          @default(now())
+  updated_at                   DateTime          @default(now()) @updatedAt
   Spin                         Spin[]
   ParticipateSpin              ParticipateSpin[]
   received_friend_solicitation Friendship[]      @relation("receives")
@@ -40,49 +41,58 @@ model Spin {
   start_date      DateTime?
   end_date        DateTime?
   created_at      DateTime          @default(now())
+  updated_at      DateTime          @default(now()) @updatedAt
   ParticipateSpin ParticipateSpin[]
 
   @@map("spins")
 }
 
 model ParticipateSpin {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   spin_id     String
-  spin        Spin   @relation(fields: [spin_id], references: [id], onDelete: Cascade)
+  spin        Spin     @relation(fields: [spin_id], references: [id], onDelete: Cascade)
   received_id String
-  received    User   @relation(fields: [received_id], references: [id], onDelete: Cascade)
-  status      Int    @default(0)
+  received    User     @relation(fields: [received_id], references: [id], onDelete: Cascade)
+  status      Int      @default(0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
 
   @@map("participate_spin")
 }
 
 model Friendship {
-  sent        User   @relation("sends", fields: [sent_id], references: [id], onDelete: Cascade)
+  sent        User     @relation("sends", fields: [sent_id], references: [id], onDelete: Cascade)
   sent_id     String
-  received    User   @relation("receives", fields: [received_id], references: [id], onDelete: Cascade)
+  received    User     @relation("receives", fields: [received_id], references: [id], onDelete: Cascade)
   received_id String
-  status      Int    @default(0)
+  status      Int      @default(0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
 
   @@id([sent_id, received_id])
   @@map("friendship")
 }
 
 model Report {
-  reporter    User    @relation("reports", fields: [reporter_id], references: [id], onDelete: Cascade)
+  reporter    User     @relation("reports", fields: [reporter_id], references: [id], onDelete: Cascade)
   reporter_id String
-  reported    User    @relation("reported_by", fields: [reported_id], references: [id], onDelete: Cascade)
+  reported    User     @relation("reported_by", fields: [reported_id], references: [id], onDelete: Cascade)
   reported_id String
   reason      String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
 
   @@id([reporter_id, reported_id])
   @@map("report")
 }
 
 model Block {
-  blocker    User   @relation("blocks", fields: [blocker_id], references: [id], onDelete: Cascade)
+  blocker    User     @relation("blocks", fields: [blocker_id], references: [id], onDelete: Cascade)
   blocker_id String
-  blocked    User   @relation("blocked_by", fields: [blocked_id], references: [id], onDelete: Cascade)
+  blocked    User     @relation("blocked_by", fields: [blocked_id], references: [id], onDelete: Cascade)
   blocked_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   @@id([blocker_id, blocked_id])
   @@map("block")
