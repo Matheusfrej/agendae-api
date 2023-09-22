@@ -1,4 +1,3 @@
-import { UserNotFoundError } from "./errors/user-not-found-error";
 import { SpinRepositoryInterface } from "@/repositories/spin-repository-interface";
 import { ParticipateSpinRepositoryInterface } from "@/repositories/participate-spin-repository-interface";
 import { SpinNotFoundError } from "./errors/spin-not-found-error";
