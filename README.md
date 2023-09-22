@@ -1,1 +1,1 @@
-# frejoles-api
+# agendae-api
