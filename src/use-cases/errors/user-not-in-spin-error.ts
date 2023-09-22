@@ -1,7 +1,7 @@
 import { PreConditionalError } from "./pre-conditional-error";
 
 export class UserNotInSpinError extends PreConditionalError {
-  constructor() {
-    super(401, "Usuário não está no rolê");
+  constructor(name = "Usuário") {
+    super(401, `${name} não está no rolê`);
   }
 }
