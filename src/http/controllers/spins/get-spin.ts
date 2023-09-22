@@ -6,10 +6,10 @@ export async function getSpin(req: Request, res: Response, next: NextFunction) {
   try {
     const spinUseCase = makeGetSpinUseCase();
 
-    const { id } = req.params;
+    const { spin_id } = req.params;
 
     const { spin, organizer } = await spinUseCase.execute({
-      spin_id: id,
+      spin_id,
     });
 
     const response = {

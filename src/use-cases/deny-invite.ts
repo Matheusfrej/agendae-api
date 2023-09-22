@@ -25,8 +25,6 @@ export class DenyInviteUseCase {
       user_invited_id,
     );
 
-    console.log(invite);
-
     if (!invite) {
       throw new UserNotInvitedError();
     } else if (invite.status === 1) {

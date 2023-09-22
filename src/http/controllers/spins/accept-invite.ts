@@ -9,7 +9,7 @@ export async function acceptInvite(
   next: NextFunction,
 ) {
   try {
-    const acceptSpinBodySchema = z.object({
+    const acceptSpinParamsSchema = z.object({
       spin_id: z.string(),
     });
 
@@ -17,7 +17,7 @@ export async function acceptInvite(
 
     const { user_id } = req.body.user_id;
 
-    const { spin_id } = acceptSpinBodySchema.parse(req.body);
+    const { spin_id } = acceptSpinParamsSchema.parse(req.params);
 
     await acceptInviteUseCase.execute({
       spin_id,

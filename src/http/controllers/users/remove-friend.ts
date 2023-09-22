@@ -12,7 +12,7 @@ export async function removeFriend(
 
     const { user_id } = req.body.user_id;
 
-    const { friend_id } = req.body;
+    const { friend_id } = req.params;
 
     await removeFriendUseCase.execute({
       user_id,

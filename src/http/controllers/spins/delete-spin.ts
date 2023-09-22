@@ -11,10 +11,10 @@ export async function deleteSpin(
     const deleteSpinUseCase = makeDeleteSpinUseCase();
 
     const { user_id } = req.body.user_id;
-    const { id } = req.params;
+    const { spin_id } = req.params;
 
     await deleteSpinUseCase.execute({
-      spin_id: id,
+      spin_id,
       user_id,
     });
 

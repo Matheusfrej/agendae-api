@@ -12,7 +12,7 @@ export async function denyFriend(
 
     const { user_id } = req.body.user_id;
 
-    const { friend_id } = req.body;
+    const { friend_id } = req.params;
 
     await denyFriendUseCase.execute({
       user_id,

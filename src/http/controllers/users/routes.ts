@@ -18,25 +18,24 @@ import { changePassword } from "./change-password";
 
 export const usersRoutes = express.Router();
 
-usersRoutes.post("/register", register);
+usersRoutes.post("/users/login", login);
 
-usersRoutes.post("/login", login);
+usersRoutes.post("/users/change-password", changePassword);
 
-usersRoutes.post("/change-password", changePassword);
+usersRoutes.get("/users/user-id/:email", getUserIdByEmail);
 
-usersRoutes.get("/user-id/:email", getUserIdByEmail);
+usersRoutes.post("/users", register);
+usersRoutes.put("/users", verifyJWT, editProfile);
+usersRoutes.delete("/users", verifyJWT, deleteProfile);
+usersRoutes.get("/users/:id", verifyJWT, profile);
 
-usersRoutes.get("/profile/:id", verifyJWT, profile);
-usersRoutes.put("/profile", verifyJWT, editProfile);
-usersRoutes.delete("/profile", verifyJWT, deleteProfile);
-
-usersRoutes.post("/add-friend", verifyJWT, addFriend);
-usersRoutes.post("/accept-friend", verifyJWT, acceptFriend);
-usersRoutes.post("/deny-friend", verifyJWT, denyFriend);
-usersRoutes.post("/remove-friend", verifyJWT, removeFriend);
+usersRoutes.post("/users/add/:friend_id", verifyJWT, addFriend);
+usersRoutes.post("/users/accept/:friend_id", verifyJWT, acceptFriend);
+usersRoutes.post("/users/deny/:friend_id", verifyJWT, denyFriend);
+usersRoutes.post("/users/remove/:friend_id", verifyJWT, removeFriend);
 usersRoutes.get("/friends", verifyJWT, getFriends);
 
-usersRoutes.post("/block", verifyJWT, block);
-usersRoutes.post("/unblock", verifyJWT, unblock);
+usersRoutes.post("/users/block/:another_id", verifyJWT, block);
+usersRoutes.post("/users/unblock/:another_id", verifyJWT, unblock);
 
-usersRoutes.post("/report", verifyJWT, report);
+usersRoutes.post("/users/report/:another_id", verifyJWT, report);

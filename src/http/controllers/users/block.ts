@@ -8,7 +8,7 @@ export async function block(req: Request, res: Response, next: NextFunction) {
 
     const { user_id } = req.body.user_id;
 
-    const { another_id } = req.body;
+    const { another_id } = req.params;
 
     await blockUseCase.execute({
       user_id,

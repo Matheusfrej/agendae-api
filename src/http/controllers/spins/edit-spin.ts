@@ -23,13 +23,13 @@ export async function editSpin(
     const spinUseCase = makeEditSpinUseCase();
 
     const { user_id } = req.body.user_id;
-    const { id } = req.params;
+    const { spin_id } = req.params;
 
     const { title, theme_color, description, place, start_date, end_date } =
       editSpinBodySchema.parse(req.body);
 
     const { spin, organizer } = await spinUseCase.execute({
-      id,
+      id: spin_id,
       title,
       organizer_id: user_id,
       theme_color,

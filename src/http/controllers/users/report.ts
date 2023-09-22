@@ -6,7 +6,6 @@ import { z } from "zod";
 export async function report(req: Request, res: Response, next: NextFunction) {
   try {
     const reportBodySchema = z.object({
-      another_id: z.string(),
       reason: z.string().max(500).optional(),
     });
 
@@ -14,7 +13,9 @@ export async function report(req: Request, res: Response, next: NextFunction) {
 
     const { user_id } = req.body.user_id;
 
-    const { another_id, reason } = reportBodySchema.parse(req.body);
+    const { another_id } = req.params;
+
+    const { reason } = reportBodySchema.parse(req.body);
 
     await reportUseCase.execute({
       user_id,

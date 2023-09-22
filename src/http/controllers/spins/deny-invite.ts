@@ -9,7 +9,7 @@ export async function denyInvite(
   next: NextFunction,
 ) {
   try {
-    const denySpinBodySchema = z.object({
+    const denySpinParamsSchema = z.object({
       spin_id: z.string(),
     });
 
@@ -17,7 +17,7 @@ export async function denyInvite(
 
     const { user_id } = req.body.user_id;
 
-    const { spin_id } = denySpinBodySchema.parse(req.body);
+    const { spin_id } = denySpinParamsSchema.parse(req.params);
 
     await denyInviteUseCase.execute({
       spin_id,

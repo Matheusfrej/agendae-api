@@ -8,7 +8,7 @@ export async function unblock(req: Request, res: Response, next: NextFunction) {
 
     const { user_id } = req.body.user_id;
 
-    const { another_id } = req.body;
+    const { another_id } = req.params;
 
     await unblockUseCase.execute({
       user_id,

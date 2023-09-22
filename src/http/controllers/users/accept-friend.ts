@@ -12,7 +12,7 @@ export async function acceptFriend(
 
     const { user_id } = req.body.user_id;
 
-    const { friend_id } = req.body;
+    const { friend_id } = req.params;
 
     await acceptFriendUseCase.execute({
       user_id,
