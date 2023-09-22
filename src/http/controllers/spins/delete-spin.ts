@@ -1,6 +1,7 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeDeleteSpinUseCase } from "@/use-cases/factories/make-delete-spin-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function deleteSpin(
   req: Request,
@@ -8,10 +9,14 @@ export async function deleteSpin(
   next: NextFunction,
 ) {
   try {
+    const deleteSpinParamsSchema = z.object({
+      spin_id: z.string(),
+    });
+
     const deleteSpinUseCase = makeDeleteSpinUseCase();
 
     const { user_id } = req.body.user_id;
-    const { spin_id } = req.params;
+    const { spin_id } = deleteSpinParamsSchema.parse(req.params);
 
     await deleteSpinUseCase.execute({
       spin_id,

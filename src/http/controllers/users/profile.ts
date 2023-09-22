@@ -1,12 +1,17 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeProfileUseCase } from "@/use-cases/factories/make-profile-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function profile(req: Request, res: Response, next: NextFunction) {
   try {
+    const profileParamsSchema = z.object({
+      id: z.string(),
+    });
+
     const profileUseCase = makeProfileUseCase();
 
-    const { id } = req.params;
+    const { id } = profileParamsSchema.parse(req.params);
     const { user_id } = req.body.user_id;
 
     const { user, statistics, is_friend, is_blocked, is_reported } =

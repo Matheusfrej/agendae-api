@@ -20,10 +20,14 @@ export async function editSpin(
       end_date: z.coerce.date().optional(),
     });
 
+    const editSpinParamsSchema = z.object({
+      spin_id: z.string(),
+    });
+
     const spinUseCase = makeEditSpinUseCase();
 
     const { user_id } = req.body.user_id;
-    const { spin_id } = req.params;
+    const { spin_id } = editSpinParamsSchema.parse(req.params);
 
     const { title, theme_color, description, place, start_date, end_date } =
       editSpinBodySchema.parse(req.body);

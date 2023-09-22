@@ -1,6 +1,7 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeAddFriendUseCase } from "@/use-cases/factories/make-add-friend-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function addFriend(
   req: Request,
@@ -8,11 +9,15 @@ export async function addFriend(
   next: NextFunction,
 ) {
   try {
+    const addFriendParamsSchema = z.object({
+      friend_id: z.string(),
+    });
+
     const addFriendUseCase = makeAddFriendUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { friend_id } = req.params;
+    const { friend_id } = addFriendParamsSchema.parse(req.params);
 
     await addFriendUseCase.execute({
       user_id,

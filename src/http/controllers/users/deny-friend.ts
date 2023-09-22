@@ -1,6 +1,7 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeDenyFriendUseCase } from "@/use-cases/factories/make-deny-friend-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function denyFriend(
   req: Request,
@@ -8,11 +9,15 @@ export async function denyFriend(
   next: NextFunction,
 ) {
   try {
+    const denyFriendParamsSchema = z.object({
+      friend_id: z.string(),
+    });
+
     const denyFriendUseCase = makeDenyFriendUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { friend_id } = req.params;
+    const { friend_id } = denyFriendParamsSchema.parse(req.params);
 
     await denyFriendUseCase.execute({
       user_id,

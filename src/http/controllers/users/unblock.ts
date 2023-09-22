@@ -1,14 +1,19 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeUnblockUseCase } from "@/use-cases/factories/make-unblock-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function unblock(req: Request, res: Response, next: NextFunction) {
   try {
+    const unblockParamsSchema = z.object({
+      another_id: z.string(),
+    });
+
     const unblockUseCase = makeUnblockUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { another_id } = req.params;
+    const { another_id } = unblockParamsSchema.parse(req.params);
 
     await unblockUseCase.execute({
       user_id,

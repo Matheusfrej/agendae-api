@@ -1,6 +1,7 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeGetUserIdByEmailUseCase } from "@/use-cases/factories/make-get-user-id-by-email";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function getUserIdByEmail(
   req: Request,
@@ -8,9 +9,13 @@ export async function getUserIdByEmail(
   next: NextFunction,
 ) {
   try {
+    const getUserIdByEmailParamsSchema = z.object({
+      email: z.string().email(),
+    });
+
     const getUserIdUseCase = makeGetUserIdByEmailUseCase();
 
-    const { email } = req.params;
+    const { email } = getUserIdByEmailParamsSchema.parse(req.params);
 
     const user_id = await getUserIdUseCase.execute({
       email,

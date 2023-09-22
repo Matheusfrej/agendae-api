@@ -9,11 +9,15 @@ export async function report(req: Request, res: Response, next: NextFunction) {
       reason: z.string().max(500).optional(),
     });
 
+    const reportParamsSchema = z.object({
+      another_id: z.string(),
+    });
+
     const reportUseCase = makeReportUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { another_id } = req.params;
+    const { another_id } = reportParamsSchema.parse(req.params);
 
     const { reason } = reportBodySchema.parse(req.body);
 

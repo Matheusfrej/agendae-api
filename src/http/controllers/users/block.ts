@@ -1,14 +1,19 @@
 import { PreConditionalError } from "@/use-cases/errors/pre-conditional-error";
 import { makeBlockUseCase } from "@/use-cases/factories/make-block-use-case";
 import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
 
 export async function block(req: Request, res: Response, next: NextFunction) {
   try {
+    const blockParamsSchema = z.object({
+      another_id: z.string(),
+    });
+
     const blockUseCase = makeBlockUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { another_id } = req.params;
+    const { another_id } = blockParamsSchema.parse(req.params);
 
     await blockUseCase.execute({
       user_id,
