@@ -31,7 +31,11 @@ export class LeaveSpinUseCase {
       user_id,
     );
 
-    if (!participateSpin) {
+    if (
+      !participateSpin ||
+      participateSpin.status === 0 ||
+      participateSpin.status === 2
+    ) {
       throw new UserNotInSpinError("Você");
     }
 
