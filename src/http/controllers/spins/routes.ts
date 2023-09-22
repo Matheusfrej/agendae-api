@@ -10,12 +10,14 @@ import { acceptInvite } from "./accept-invite";
 import { denyInvite } from "./deny-invite";
 import { removeParticipant } from "./remove-participant";
 import { leaveSpin } from "./leave-spin";
+import { getParticipants } from "./get-participants";
 
 export const spinsRoutes = express.Router();
 
 spinsRoutes.post("/spins", verifyJWT, createSpin);
 spinsRoutes.get("/spins/:spin_id", getSpin);
 spinsRoutes.get("/spins", verifyJWT, getSpins);
+spinsRoutes.get("/spins/participants/:spin_id", verifyJWT, getParticipants);
 spinsRoutes.put("/spins/:spin_id", verifyJWT, editSpin);
 spinsRoutes.delete("/spins/:spin_id", verifyJWT, deleteSpin);
 

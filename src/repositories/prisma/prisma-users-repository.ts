@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 import { UsersRepositoryInterface } from "../users-repository-interface";
+import { getNotificationsType } from "@/@types/prisma-query-types";
 
 export class PrismaUsersRepository implements UsersRepositoryInterface {
   async create(data: Prisma.UserCreateInput) {
@@ -135,5 +136,59 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     });
 
     return spins;
+  }
+
+  async getNotifications(id: string): Promise<getNotificationsType[] | null> {
+    const users = await prisma.user.findMany({
+      where: {
+        id,
+      },
+      select: {
+        received_friend_solicitation: {
+          where: {
+            status: 0,
+          },
+          orderBy: {
+            updated_at: "desc",
+          },
+          select: {
+            updated_at: true,
+            sent: {
+              select: {
+                id: true,
+                name: true,
+                profile_pic: true,
+              },
+            },
+          },
+        },
+        ParticipateSpin: {
+          where: {
+            status: 0,
+          },
+          select: {
+            spin: {
+              select: {
+                organizer: {
+                  select: {
+                    id: true,
+                    name: true,
+                    profile_pic: true,
+                  },
+                },
+                id: true,
+                title: true,
+              },
+            },
+            updated_at: true,
+          },
+          orderBy: {
+            updated_at: "desc",
+          },
+        },
+      },
+    });
+
+    return users;
   }
 }

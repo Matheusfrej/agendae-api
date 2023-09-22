@@ -1,3 +1,4 @@
+import { getParticipantsType } from "@/@types/prisma-query-types";
 import { ParticipateSpin } from "@prisma/client";
 
 export interface ParticipateSpinRepositoryInterface {
@@ -9,4 +10,5 @@ export interface ParticipateSpinRepositoryInterface {
   acceptInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
   denyInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
   removeInvite(participate_spin_id: string): Promise<ParticipateSpin | null>;
+  getParticipants(spin_id: string): Promise<getParticipantsType[] | null>;
 }

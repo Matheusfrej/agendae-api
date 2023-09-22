@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { ParticipateSpinRepositoryInterface } from "../participate-spin-repository-interface";
 import { ParticipateSpin } from "@prisma/client";
+import { getParticipantsType } from "@/@types/prisma-query-types";
 
 export class PrismaParticipateSpinRepository
   implements ParticipateSpinRepositoryInterface
@@ -118,6 +119,29 @@ export class PrismaParticipateSpinRepository
     const invite = await prisma.participateSpin.delete({
       where: {
         id,
+      },
+    });
+
+    return invite;
+  }
+
+  async getParticipants(
+    spin_id: string,
+  ): Promise<getParticipantsType[] | null> {
+    const invite = await prisma.participateSpin.findMany({
+      where: {
+        spin_id,
+      },
+      select: {
+        spin_id: true,
+        status: true,
+        received: {
+          select: {
+            id: true,
+            name: true,
+            profile_pic: true,
+          },
+        },
       },
     });
 

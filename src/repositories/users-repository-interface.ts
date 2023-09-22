@@ -1,5 +1,8 @@
 import { Prisma, User } from "@prisma/client";
-import { AllUserSpinsType } from "@/@types/prisma-query-types";
+import {
+  AllUserSpinsType,
+  getNotificationsType,
+} from "@/@types/prisma-query-types";
 
 export interface UsersRepositoryInterface {
   create(data: Prisma.UserCreateInput): Promise<User>;
@@ -13,4 +16,5 @@ export interface UsersRepositoryInterface {
   ): Promise<User | null>;
   findMany(users_id: string[]): Promise<User[] | null>;
   findAllUserSpins(user_id: string): Promise<AllUserSpinsType>;
+  getNotifications(user_id: string): Promise<getNotificationsType[] | null>;
 }
