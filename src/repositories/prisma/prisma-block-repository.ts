@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { BlockRepositoryInterface } from "../block-repository-interface";
-import { Block } from "@prisma/client";
+import { Block, User } from "@prisma/client";
 
 export class PrismaBlockRepository implements BlockRepositoryInterface {
   async removeBlock(
@@ -69,5 +69,18 @@ export class PrismaBlockRepository implements BlockRepositoryInterface {
       },
     });
     return isBlocked !== null;
+  }
+
+  async getBlocks(user_id: string): Promise<User[] | null> {
+    const blocks = await prisma.block.findMany({
+      where: {
+        blocker_id: user_id,
+      },
+      select: {
+        blocked: true,
+      },
+    });
+
+    return blocks.map((block) => block.blocked);
   }
 }

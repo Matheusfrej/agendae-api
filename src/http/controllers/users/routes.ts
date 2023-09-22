@@ -15,6 +15,7 @@ import { getUserIdByEmail } from "./get-user-id-by-email";
 import { unblock } from "./unblock";
 import { report } from "./report";
 import { changePassword } from "./change-password";
+import { getBlocks } from "./get-blocks";
 
 export const usersRoutes = express.Router();
 
@@ -37,5 +38,6 @@ usersRoutes.get("/friends", verifyJWT, getFriends);
 
 usersRoutes.post("/users/block/:another_id", verifyJWT, block);
 usersRoutes.post("/users/unblock/:another_id", verifyJWT, unblock);
+usersRoutes.get("/blocks", verifyJWT, getBlocks);
 
 usersRoutes.post("/users/report/:another_id", verifyJWT, report);

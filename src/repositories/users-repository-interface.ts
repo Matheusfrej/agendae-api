@@ -1,4 +1,5 @@
 import { Prisma, User } from "@prisma/client";
+import { AllUserSpinsType } from "@/@types/prisma-query-types";
 
 export interface UsersRepositoryInterface {
   create(data: Prisma.UserCreateInput): Promise<User>;
@@ -11,6 +12,5 @@ export interface UsersRepositoryInterface {
     password: string,
   ): Promise<User | null>;
   findMany(users_id: string[]): Promise<User[] | null>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  findAllUserSpins(user_id: string): Promise<any>;
+  findAllUserSpins(user_id: string): Promise<AllUserSpinsType>;
 }
