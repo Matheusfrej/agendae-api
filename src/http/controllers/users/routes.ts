@@ -17,10 +17,13 @@ import { report } from "./report";
 import { changePassword } from "./change-password";
 import { getBlocks } from "./get-blocks";
 import { notifications } from "./notifications";
+import { refresh } from "./refresh";
 
 export const usersRoutes = express.Router();
 
 usersRoutes.post("/users/login", login);
+
+usersRoutes.patch("/token/refresh", refresh);
 
 usersRoutes.post("/users/change-password", changePassword);
 

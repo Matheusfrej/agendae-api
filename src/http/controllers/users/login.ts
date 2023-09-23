@@ -22,10 +22,22 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     });
 
     const token = jwt.sign({ user_id: user.id }, env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "10m",
     });
 
-    return res.status(200).send({ token });
+    const refreshToken = jwt.sign({ user_id: user.id }, env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    return res
+      .cookie("refreshToken", refreshToken, {
+        path: "/",
+        secure: true,
+        sameSite: "strict",
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });
