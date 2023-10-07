@@ -10,7 +10,7 @@ export async function register(
 ) {
   try {
     const registerBodySchema = z.object({
-      name: z.string().max(100),
+      name: z.string().min(1).max(100),
       nickname: z.string().min(1).max(100).optional(),
       email: z.string().email(),
       password: z.string().min(6),

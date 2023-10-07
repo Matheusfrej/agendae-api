@@ -4,7 +4,9 @@ import { UserNotFoundError } from "./errors/user-not-found-error";
 
 interface EditProfileUseCaseRequest {
   user_id: string;
-  name: string;
+  name?: string;
+  profile_pic?: string;
+  nickname?: string;
 }
 
 interface EditProfileUseCaseResponse {
@@ -17,8 +19,14 @@ export class EditProfileUseCase {
   async execute({
     user_id,
     name,
+    profile_pic,
+    nickname,
   }: EditProfileUseCaseRequest): Promise<EditProfileUseCaseResponse> {
-    const user = await this.usersRepository.findByIdAndUpdate(user_id, name);
+    const user = await this.usersRepository.findByIdAndUpdate(user_id, {
+      name,
+      profile_pic,
+      nickname,
+    });
 
     if (!user) {
       throw new UserNotFoundError();

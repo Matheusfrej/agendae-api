@@ -43,14 +43,12 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     return user;
   }
 
-  async findByIdAndUpdate(id: string, name: string) {
+  async findByIdAndUpdate(id: string, data: Prisma.UserUpdateInput) {
     const user = await prisma.user.update({
       where: {
         id,
       },
-      data: {
-        name,
-      },
+      data,
     });
 
     return user;

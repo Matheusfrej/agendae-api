@@ -9,7 +9,10 @@ export interface UsersRepositoryInterface {
   findByEmail(email: string): Promise<User | null>;
   findById(user_id: string): Promise<User | null>;
   findByIdAndDelete(user_id: string): Promise<User | null>;
-  findByIdAndUpdate(user_id: string, name: string): Promise<User | null>;
+  findByIdAndUpdate(
+    id: string,
+    data: Prisma.UserUpdateInput,
+  ): Promise<User | null>;
   findByIdAndUpdatePassword(
     user_id: string,
     password: string,

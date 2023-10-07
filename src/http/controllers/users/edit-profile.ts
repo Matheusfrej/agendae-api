@@ -10,10 +10,14 @@ export async function editProfile(
 ) {
   try {
     const editProfileBodySchema = z.object({
-      name: z.string().max(100),
+      name: z.string().max(100).optional(),
+      profile_pic: z.string().optional(),
+      nickname: z.string().min(1).max(100).optional(),
     });
 
-    const { name } = editProfileBodySchema.parse(req.body);
+    const { name, profile_pic, nickname } = editProfileBodySchema.parse(
+      req.body,
+    );
 
     const profileUseCase = makeEditProfileUseCase();
 
@@ -22,6 +26,8 @@ export async function editProfile(
     const { user } = await profileUseCase.execute({
       user_id,
       name,
+      profile_pic,
+      nickname,
     });
 
     return res.status(200).send({ user: { ...user, password: undefined } });
