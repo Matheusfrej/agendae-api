@@ -11,16 +11,20 @@ export async function register(
   try {
     const registerBodySchema = z.object({
       name: z.string().max(100),
+      nickname: z.string().min(1).max(100).optional(),
       email: z.string().email(),
       password: z.string().min(6),
     });
 
-    const { name, email, password } = registerBodySchema.parse(req.body);
+    const { name, nickname, email, password } = registerBodySchema.parse(
+      req.body,
+    );
 
     const registerUseCase = makeRegisterUseCase();
 
     await registerUseCase.execute({
       name,
+      nickname,
       email,
       password,
     });
