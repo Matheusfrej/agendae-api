@@ -11,6 +11,7 @@ import { denyInvite } from "./deny-invite";
 import { removeParticipant } from "./remove-participant";
 import { leaveSpin } from "./leave-spin";
 import { getParticipants } from "./get-participants";
+import { getColors } from "./get-colors";
 
 export const spinsRoutes = express.Router();
 
@@ -26,3 +27,5 @@ spinsRoutes.post("/spins/invite/accept/:spin_id", verifyJWT, acceptInvite);
 spinsRoutes.post("/spins/invite/deny/:spin_id", verifyJWT, denyInvite);
 spinsRoutes.post("/spins/remove/:another_id", verifyJWT, removeParticipant);
 spinsRoutes.post("/spins/leave/:spin_id", verifyJWT, leaveSpin);
+
+spinsRoutes.get("/get-colors", getColors);
