@@ -16,6 +16,7 @@ import { getColors } from "./get-colors";
 export const spinsRoutes = express.Router();
 
 spinsRoutes.post("/spins", verifyJWT, createSpin);
+spinsRoutes.get("/spins/colors", getColors);
 spinsRoutes.get("/spins/:spin_id", getSpin);
 spinsRoutes.get("/spins", verifyJWT, getSpins);
 spinsRoutes.get("/spins/participants/:spin_id", verifyJWT, getParticipants);
@@ -27,5 +28,3 @@ spinsRoutes.post("/spins/invite/accept/:spin_id", verifyJWT, acceptInvite);
 spinsRoutes.post("/spins/invite/deny/:spin_id", verifyJWT, denyInvite);
 spinsRoutes.post("/spins/remove/:another_id", verifyJWT, removeParticipant);
 spinsRoutes.post("/spins/leave/:spin_id", verifyJWT, leaveSpin);
-
-spinsRoutes.get("/get-colors", getColors);
