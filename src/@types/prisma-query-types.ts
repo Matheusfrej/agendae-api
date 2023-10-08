@@ -26,6 +26,7 @@ type getNotificationsType = {
       organizer: {
         id: string;
         name: string;
+        nickname: string | null;
         profile_pic: string;
       };
     };
@@ -35,6 +36,7 @@ type getNotificationsType = {
     sent: {
       id: string;
       name: string;
+      nickname: string | null;
       profile_pic: string;
     };
   }[];

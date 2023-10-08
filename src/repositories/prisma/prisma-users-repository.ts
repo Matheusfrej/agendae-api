@@ -96,6 +96,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
               select: {
                 id: true,
                 name: true,
+                nickname: true,
                 email: true,
                 profile_pic: true,
                 created_at: true,
@@ -121,6 +122,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
                   select: {
                     id: true,
                     name: true,
+                    nickname: true,
                     email: true,
                     profile_pic: true,
                     created_at: true,
@@ -155,6 +157,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
               select: {
                 id: true,
                 name: true,
+                nickname: true,
                 profile_pic: true,
               },
             },
@@ -171,6 +174,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
                   select: {
                     id: true,
                     name: true,
+                    nickname: true,
                     profile_pic: true,
                   },
                 },
