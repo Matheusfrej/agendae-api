@@ -17,15 +17,25 @@ export async function createSpin(
       description: z.string().max(600).optional(),
       place: z.string().max(100).optional(),
       start_date: z.coerce.date().optional(),
+      has_start_time: z.coerce.boolean(),
       end_date: z.coerce.date().optional(),
+      has_end_time: z.coerce.boolean(),
     });
 
     const spinUseCase = makeCreateSpinUseCase();
 
     const { user_id } = req.body.user_id;
 
-    const { title, theme_color, description, place, start_date, end_date } =
-      spinBodySchema.parse(req.body);
+    const {
+      title,
+      theme_color,
+      description,
+      place,
+      start_date,
+      has_start_time,
+      end_date,
+      has_end_time,
+    } = spinBodySchema.parse(req.body);
 
     const spin = await spinUseCase.execute({
       title,
@@ -34,7 +44,9 @@ export async function createSpin(
       description,
       place,
       start_date,
+      has_start_time,
       end_date,
+      has_end_time,
     });
 
     return res.status(201).send(spin);

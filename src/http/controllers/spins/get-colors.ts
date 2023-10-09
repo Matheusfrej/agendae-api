@@ -16,7 +16,7 @@ export async function getColors(
       { key: "blue", value: "Azul" },
     ];
 
-    return res.status(200).send(colors);
+    return res.status(200).send({ colors });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });

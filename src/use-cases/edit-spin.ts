@@ -14,7 +14,9 @@ interface EditSpinUseCaseRequest {
   place?: string;
   theme_color: string;
   start_date?: Date;
+  has_start_time?: boolean;
   end_date?: Date;
+  has_end_time?: boolean;
 }
 
 interface EditSpinUseCaseResponse {
@@ -36,7 +38,9 @@ export class EditSpinUseCase {
     place,
     theme_color,
     start_date,
+    has_start_time,
     end_date,
+    has_end_time,
   }: EditSpinUseCaseRequest): Promise<EditSpinUseCaseResponse> {
     if (
       start_date &&
@@ -62,7 +66,9 @@ export class EditSpinUseCase {
       description,
       place,
       start_date,
+      has_start_time,
       end_date,
+      has_end_time,
     });
 
     if (!newSpin) {

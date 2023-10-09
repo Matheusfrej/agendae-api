@@ -89,7 +89,9 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
             title: true,
             description: true,
             start_date: true,
+            has_start_time: true,
             end_date: true,
+            has_end_time: true,
             place: true,
             theme_color: true,
             organizer: {
@@ -115,7 +117,9 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
                 title: true,
                 description: true,
                 start_date: true,
+                has_start_time: true,
                 end_date: true,
+                has_end_time: true,
                 place: true,
                 theme_color: true,
                 organizer: {

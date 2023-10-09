@@ -10,7 +10,9 @@ interface CreateSpinUseCaseRequest {
   place?: string;
   theme_color: string;
   start_date?: Date;
+  has_start_time: boolean;
   end_date?: Date;
+  has_end_time: boolean;
 }
 
 interface CreateSpinUseCaseResponse {
@@ -27,7 +29,9 @@ export class CreateSpinUseCase {
     place,
     theme_color,
     start_date,
+    has_start_time,
     end_date,
+    has_end_time,
   }: CreateSpinUseCaseRequest): Promise<CreateSpinUseCaseResponse> {
     if (
       start_date &&
@@ -44,7 +48,9 @@ export class CreateSpinUseCase {
       description,
       place,
       start_date,
+      has_start_time,
       end_date,
+      has_end_time,
     });
 
     if (!spin) {

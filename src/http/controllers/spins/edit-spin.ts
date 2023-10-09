@@ -17,7 +17,9 @@ export async function editSpin(
       description: z.string().max(600).optional(),
       place: z.string().max(100).optional(),
       start_date: z.coerce.date().optional(),
+      has_start_time: z.coerce.boolean().optional(),
       end_date: z.coerce.date().optional(),
+      has_end_time: z.coerce.boolean().optional(),
     });
 
     const editSpinParamsSchema = z.object({
@@ -29,8 +31,16 @@ export async function editSpin(
     const { user_id } = req.body.user_id;
     const { spin_id } = editSpinParamsSchema.parse(req.params);
 
-    const { title, theme_color, description, place, start_date, end_date } =
-      editSpinBodySchema.parse(req.body);
+    const {
+      title,
+      theme_color,
+      description,
+      place,
+      start_date,
+      has_start_time,
+      end_date,
+      has_end_time,
+    } = editSpinBodySchema.parse(req.body);
 
     const { spin, organizer } = await spinUseCase.execute({
       id: spin_id,
@@ -40,7 +50,9 @@ export async function editSpin(
       description,
       place,
       start_date,
+      has_start_time,
       end_date,
+      has_end_time,
     });
 
     const response = {

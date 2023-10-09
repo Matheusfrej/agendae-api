@@ -40,7 +40,9 @@ model Spin {
   place           String?
   theme_color     String            @default("purple")
   start_date      DateTime?
+  has_start_time  Boolean           @default(false)
   end_date        DateTime?
+  has_end_time    Boolean           @default(false)
   created_at      DateTime          @default(now())
   updated_at      DateTime          @default(now()) @updatedAt
   ParticipateSpin ParticipateSpin[]

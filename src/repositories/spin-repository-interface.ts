@@ -7,7 +7,9 @@ export interface CreateSpinRepositoryInterface {
   description?: string;
   place?: string;
   start_date?: Date;
+  has_start_time: boolean;
   end_date?: Date;
+  has_end_time: boolean;
 }
 
 export interface UpdateSpinRepositoryInterface {
@@ -16,7 +18,9 @@ export interface UpdateSpinRepositoryInterface {
   description?: string;
   place?: string;
   start_date?: Date;
+  has_start_time?: boolean;
   end_date?: Date;
+  has_end_time?: boolean;
 }
 
 export interface SpinRepositoryInterface {
