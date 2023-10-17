@@ -34,22 +34,25 @@ model User {
 }
 
 model Spin {
-  id              String            @id @default(uuid())
-  title           String
-  organizer_id    String
-  organizer       User              @relation(fields: [organizer_id], references: [id], onDelete: Cascade)
-  description     String?
-  place           String?
-  theme_color     String            @default("purple")
-  start_date      DateTime?
-  has_start_time  Boolean           @default(false)
-  end_date        DateTime?
-  has_end_time    Boolean           @default(false)
-  is_active       Boolean           @default(true)
-  created_at      DateTime          @default(now())
-  updated_at      DateTime          @default(now()) @updatedAt
-  ParticipateSpin ParticipateSpin[]
-  Promote         Promote[]
+  id               String            @id @default(uuid())
+  title            String
+  organizer_id     String
+  organizer        User              @relation(fields: [organizer_id], references: [id], onDelete: Cascade)
+  description      String?
+  place            String?
+  theme_color      String            @default("purple")
+  start_date       DateTime?
+  has_start_time   Boolean           @default(false)
+  end_date         DateTime?
+  has_end_time     Boolean           @default(false)
+  is_active        Boolean           @default(true)
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @default(now()) @updatedAt
+  ParticipateSpin  ParticipateSpin[]
+  // 0 = grátis, 1 = pago para participar, 2 = grátis para participar, mas pode conter conteúdo pago
+  paid_status      Int               @default(0)
+  // 0 = não anunciado, 1 = 1%, 2 = 10%, 3 = 20%, 4 = 50%, 5 = 100% 
+  promotion_status Int               @default(0)
 
   @@map("spins")
 }
@@ -60,6 +63,7 @@ model ParticipateSpin {
   spin        Spin     @relation(fields: [spin_id], references: [id], onDelete: Cascade)
   received_id String
   received    User     @relation(fields: [received_id], references: [id], onDelete: Cascade)
+  // 0 = pendente, 1 = aceito, 2 = recusado
   status      Int      @default(0)
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
@@ -72,6 +76,7 @@ model Friendship {
   sent_id     String
   received    User     @relation("receives", fields: [received_id], references: [id], onDelete: Cascade)
   received_id String
+  // 0 = pendente, 1 = aceito
   status      Int      @default(0)
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
@@ -103,12 +108,4 @@ model Block {
 
   @@id([blocker_id, blocked_id])
   @@map("block")
-}
-
-model Promote {
-  id             String @id @default(uuid())
-  spin_id        String
-  promoted       Spin   @relation(fields: [spin_id], references: [id], onDelete: Cascade)
-  // 0 = 1%, 1 = 10%, 2 = 20%, 3 = 50%, 4 = 100% 
-  promotion_type Int    @default(0)
 }
