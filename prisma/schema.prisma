@@ -17,6 +17,8 @@ model User {
   email                        String            @unique
   password                     String
   profile_pic                  String            @default("no_pft")
+  is_active                    Boolean           @default(true)
+  friend_code                  String            @unique
   created_at                   DateTime          @default(now())
   updated_at                   DateTime          @default(now()) @updatedAt
   Spin                         Spin[]
@@ -43,9 +45,11 @@ model Spin {
   has_start_time  Boolean           @default(false)
   end_date        DateTime?
   has_end_time    Boolean           @default(false)
+  is_active       Boolean           @default(true)
   created_at      DateTime          @default(now())
   updated_at      DateTime          @default(now()) @updatedAt
   ParticipateSpin ParticipateSpin[]
+  Promote         Promote[]
 
   @@map("spins")
 }
@@ -99,4 +103,12 @@ model Block {
 
   @@id([blocker_id, blocked_id])
   @@map("block")
+}
+
+model Promote {
+  id             String @id @default(uuid())
+  spin_id        String
+  promoted       Spin   @relation(fields: [spin_id], references: [id], onDelete: Cascade)
+  // 0 = 1%, 1 = 10%, 2 = 20%, 3 = 50%, 4 = 100% 
+  promotion_type Int    @default(0)
 }

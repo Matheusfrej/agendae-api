@@ -1,5 +1,5 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
-import { InvalidUserError } from "@/use-cases/errors/invalid-user-error";
+import { UserNotFoundError } from "./errors/user-not-found-error";
 
 interface GetUserIdByEmailUseCaseRequest {
   email: string;
@@ -18,7 +18,7 @@ export class GetUserIdByEmailUseCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new InvalidUserError();
+      throw new UserNotFoundError();
     }
 
     return {

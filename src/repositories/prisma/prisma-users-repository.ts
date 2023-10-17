@@ -23,6 +23,16 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     return user;
   }
 
+  async findByFriendCode(friend_code: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        friend_code,
+      },
+    });
+
+    return user;
+  }
+
   async findById(id: string) {
     const user = await prisma.user.findUnique({
       where: {

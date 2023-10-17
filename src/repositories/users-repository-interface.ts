@@ -7,6 +7,7 @@ import {
 export interface UsersRepositoryInterface {
   create(data: Prisma.UserCreateInput): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
+  findByFriendCode(friend_code: string): Promise<User | null>;
   findById(user_id: string): Promise<User | null>;
   findByIdAndDelete(user_id: string): Promise<User | null>;
   findByIdAndUpdate(

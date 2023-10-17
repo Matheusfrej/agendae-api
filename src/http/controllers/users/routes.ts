@@ -18,6 +18,7 @@ import { changePassword } from "./change-password";
 import { getBlocks } from "./get-blocks";
 import { notifications } from "./notifications";
 import { refresh } from "./refresh";
+import { getUserByFriendCode } from "./get-user-by-friend-code";
 
 export const usersRoutes = express.Router();
 
@@ -33,6 +34,11 @@ usersRoutes.post("/users", register);
 usersRoutes.put("/users", verifyJWT, editProfile);
 usersRoutes.delete("/users", verifyJWT, deleteProfile);
 usersRoutes.get("/users/:id", verifyJWT, profile);
+usersRoutes.get(
+  "/users/friend-code/:friend_code",
+  verifyJWT,
+  getUserByFriendCode,
+);
 
 usersRoutes.post("/users/add/:friend_id", verifyJWT, addFriend);
 usersRoutes.post("/users/accept/:friend_id", verifyJWT, acceptFriend);
