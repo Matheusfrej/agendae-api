@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { usersRoutes } from "./http/controllers/users/routes";
 import { ZodError } from "zod";
 import { env } from "./env";
+import cors from "cors";
 import { spinsRoutes } from "./http/controllers/spins/routes";
 
 export const app = express();
@@ -28,6 +29,7 @@ const errorHandler = (
   return res.status(500).json({ message: "Erro interno do servidor" });
 };
 
+app.use(cors());
 app.use(express.json());
 app.use(usersRoutes);
 app.use(spinsRoutes);

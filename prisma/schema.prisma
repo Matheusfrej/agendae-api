@@ -29,6 +29,7 @@ model User {
   reporter                     Report[]          @relation("reports")
   blocked_by                   Block[]           @relation("blocked_by")
   blocked                      Block[]           @relation("blocks")
+  Promote                      Promote[]
 
   @@map("users")
 }
@@ -53,6 +54,7 @@ model Spin {
   paid_status      Int               @default(0)
   // 0 = não anunciado, 1 = 1%, 2 = 10%, 3 = 20%, 4 = 50%, 5 = 100% 
   promotion_status Int               @default(0)
+  Promote          Promote[]
 
   @@map("spins")
 }
@@ -108,4 +110,14 @@ model Block {
 
   @@id([blocker_id, blocked_id])
   @@map("block")
+}
+
+model Promote {
+  spin_id String
+  spin    Spin   @relation(fields: [spin_id], references: [id], onDelete: Cascade)
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([spin_id, user_id])
+  @@map("promote")
 }

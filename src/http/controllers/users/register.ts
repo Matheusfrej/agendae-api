@@ -10,10 +10,13 @@ export async function register(
 ) {
   try {
     const registerBodySchema = z.object({
-      name: z.string().min(1).max(100),
+      name: z
+        .string({ required_error: "Nome é obrigatório" })
+        .min(1)
+        .max(100, "Tamanho máximo atingido"),
       nickname: z.string().min(1).max(100).optional(),
-      email: z.string().email(),
-      password: z.string().min(6),
+      email: z.string({ required_error: "Email é obrigatório" }).email(),
+      password: z.string({ required_error: "Senha é obrigatório" }).min(6),
     });
 
     const { name, nickname, email, password } = registerBodySchema.parse(
