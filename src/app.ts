@@ -17,7 +17,7 @@ const errorHandler = (
   if (error instanceof ZodError) {
     return res
       .status(400)
-      .send({ message: "Validation error.", issues: error.format() });
+      .send({ message: "Erro de validação.", issues: error.format() });
   }
 
   if (env.NODE_ENV !== "production") {

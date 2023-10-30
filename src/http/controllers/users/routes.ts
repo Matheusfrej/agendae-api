@@ -19,6 +19,7 @@ import { getBlocks } from "./get-blocks";
 import { notifications } from "./notifications";
 import { refresh } from "./refresh";
 import { getUserByFriendCode } from "./get-user-by-friend-code";
+import { verifyChangePasswordJWT } from "@/http/middlewares/verify-change-password-jwt";
 
 export const usersRoutes = express.Router();
 
@@ -26,7 +27,11 @@ usersRoutes.post("/users/login", login);
 
 usersRoutes.patch("/token/refresh", refresh);
 
-usersRoutes.post("/users/change-password", changePassword);
+usersRoutes.post(
+  "/users/change-password",
+  verifyChangePasswordJWT,
+  changePassword,
+);
 
 usersRoutes.get("/users/user-id/:email", getUserIdByEmail);
 
