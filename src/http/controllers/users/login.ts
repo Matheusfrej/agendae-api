@@ -21,8 +21,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       password,
     });
 
+    // TODO: trocar de "1d" para "10m" quando for subir para produção
     const token = jwt.sign({ user_id: user.id }, env.JWT_SECRET, {
-      expiresIn: "10m",
+      expiresIn: "1d",
     });
 
     const refreshToken = jwt.sign({ user_id: user.id }, env.JWT_SECRET, {
@@ -37,7 +38,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         httpOnly: true,
       })
       .status(200)
-      .send({ token });
+      .send({ token, user });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });
