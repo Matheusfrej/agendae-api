@@ -20,7 +20,7 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
     ) as RefreshToken;
 
     const token = jwt.sign({ user_id: user_id.user_id }, env.JWT_SECRET, {
-      expiresIn: "10m",
+      expiresIn: "1d",
     });
 
     const refreshToken = jwt.sign(
@@ -30,7 +30,6 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
         expiresIn: "7d",
       },
     );
-    res.clearCookie("refreshToken");
 
     return res
       .cookie("refreshToken", refreshToken, {
