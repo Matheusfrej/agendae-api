@@ -16,7 +16,12 @@ export async function register(
         .max(100, "Tamanho máximo atingido"),
       nickname: z.string().min(1).max(100).optional(),
       email: z.string({ required_error: "Email é obrigatório" }).email(),
-      password: z.string({ required_error: "Senha é obrigatório" }).min(6),
+      password: z
+        .string({ required_error: "Senha é obrigatório" })
+        .min(6)
+        .refine((value) => /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(value), {
+          message: "A senha deve conter letras e números",
+        }),
     });
 
     const { name, nickname, email, password } = registerBodySchema.parse(
