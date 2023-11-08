@@ -14,7 +14,7 @@ export async function register(
         .string({ required_error: "Nome é obrigatório" })
         .min(1)
         .max(100, "Tamanho máximo atingido"),
-      nickname: z.string().min(1).max(100).optional(),
+      nickname: z.string().max(100).optional(),
       email: z.string({ required_error: "Email é obrigatório" }).email(),
       password: z
         .string({ required_error: "Senha é obrigatório" })

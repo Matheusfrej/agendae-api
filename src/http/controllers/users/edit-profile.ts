@@ -12,7 +12,7 @@ export async function editProfile(
     const editProfileBodySchema = z.object({
       name: z.string().max(100).optional(),
       profile_pic: z.string().optional(),
-      nickname: z.string().min(1).max(100).optional(),
+      nickname: z.string().max(100).optional(),
     });
 
     const { name, profile_pic, nickname } = editProfileBodySchema.parse(
