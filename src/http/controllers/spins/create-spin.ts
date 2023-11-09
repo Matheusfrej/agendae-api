@@ -10,7 +10,7 @@ export async function createSpin(
 ) {
   try {
     const spinBodySchema = z.object({
-      title: z.string().max(60),
+      title: z.string().min(1).max(60),
       theme_color: z
         .enum(["purple", "green", "red", "yellow", "cyan", "blue"])
         .default("purple"),
