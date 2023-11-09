@@ -4,8 +4,13 @@ import { ZodError } from "zod";
 import { env } from "./env";
 import cors from "cors";
 import { spinsRoutes } from "./http/controllers/spins/routes";
+import * as Sentry from "@sentry/node";
 
 export const app = express();
+
+Sentry.init({
+  dsn: env.SENTRY_URL,
+});
 
 const errorHandler = (
   error: Error,
@@ -23,7 +28,7 @@ const errorHandler = (
   if (env.NODE_ENV !== "production") {
     console.error(error);
   } else {
-    // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
+    Sentry.captureException(error);
   }
 
   return res.status(500).json({ message: "Erro interno do servidor" });
