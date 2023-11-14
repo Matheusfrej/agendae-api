@@ -61,7 +61,7 @@ export async function editSpin(
       organizer: { ...organizer, password: undefined },
     };
 
-    return res.status(200).send(response);
+    return res.status(200).send({ spin: response });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });
