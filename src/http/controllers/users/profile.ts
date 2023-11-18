@@ -14,16 +14,23 @@ export async function profile(req: Request, res: Response, next: NextFunction) {
     const { id } = profileParamsSchema.parse(req.params);
     const { user_id } = req.body.user_id;
 
-    const { user, statistics, is_friend, is_blocked, is_reported } =
-      await profileUseCase.execute({
-        my_id: user_id,
-        user_id: id,
-      });
+    const {
+      user,
+      statistics,
+      is_friend,
+      is_blocked_by_you,
+      user_blocked_you,
+      is_reported,
+    } = await profileUseCase.execute({
+      my_id: user_id,
+      user_id: id,
+    });
 
     return res.status(200).send({
       user: { ...user, password: undefined },
       is_friend,
-      is_blocked,
+      is_blocked_by_you,
+      user_blocked_you,
       is_reported,
       statistics,
     });

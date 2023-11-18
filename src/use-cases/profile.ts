@@ -22,7 +22,8 @@ interface ProfileUseCaseResponse {
   user: User;
   statistics: UserStatistics;
   is_friend?: boolean;
-  is_blocked?: boolean;
+  is_blocked_by_you?: boolean;
+  user_blocked_you?: boolean;
   is_reported?: boolean;
 }
 
@@ -74,7 +75,15 @@ export class ProfileUseCase {
 
     const is_friend = friendship !== null && friendship.status === 1;
 
-    const is_blocked = await this.blockRepository.didYouBlock(my_id, user_id);
+    const is_blocked_by_you = await this.blockRepository.didYouBlock(
+      my_id,
+      user_id,
+    );
+
+    const user_blocked_you = await this.blockRepository.wereYouBlocked(
+      my_id,
+      user_id,
+    );
 
     const is_reported = await this.reportRepository.didYouReport(
       my_id,
@@ -85,7 +94,8 @@ export class ProfileUseCase {
       user,
       statistics: userStatistics,
       is_friend,
-      is_blocked,
+      is_blocked_by_you,
+      user_blocked_you,
       is_reported,
     };
   }
