@@ -37,7 +37,7 @@ export async function createSpin(
       has_end_time,
     } = spinBodySchema.parse(req.body);
 
-    const spin = await spinUseCase.execute({
+    const { spin, organizer } = await spinUseCase.execute({
       title,
       organizer_id: user_id,
       theme_color,
@@ -49,7 +49,13 @@ export async function createSpin(
       has_end_time,
     });
 
-    return res.status(201).send(spin);
+    const response = {
+      ...spin,
+      organizer_id: undefined,
+      organizer: { ...organizer, password: undefined },
+    };
+
+    return res.status(201).send({ spin: response });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });
