@@ -74,9 +74,9 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
         description: data.description,
         theme_color: data.theme_color,
         place: data.place,
-        start_date: data.start_date,
+        start_date: data.start_date === undefined ? null : data.start_date,
         has_start_time: data.has_start_time,
-        end_date: data.end_date,
+        end_date: data.end_date === undefined ? null : data.end_date,
         has_end_time: data.has_end_time,
       },
     });
