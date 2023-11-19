@@ -1,4 +1,5 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
+import { User } from "@prisma/client";
 
 interface NotificationsUseCaseRequest {
   user_id: string;
@@ -7,11 +8,11 @@ interface NotificationsUseCaseRequest {
 interface TransformedNotification {
   type: string;
   id?: string;
-  name?: string;
-  profile_pic?: string;
+  user?: { [P in keyof User]?: User[P] };
   organizer?: {
     id: string;
     name: string;
+    nickname: string | null;
     profile_pic: string;
   };
   title?: string;
@@ -41,9 +42,12 @@ export class NotificationsUseCase {
         for (const sent of notification.received_friend_solicitation) {
           transformedNotifications.push({
             type: "friend",
-            id: sent.sent.id,
-            name: sent.sent.name,
-            profile_pic: sent.sent.profile_pic,
+            user: {
+              id: sent.sent.id,
+              name: sent.sent.name,
+              nickname: sent.sent.nickname,
+              profile_pic: sent.sent.profile_pic,
+            },
             updated_at: sent.updated_at,
           });
         }
