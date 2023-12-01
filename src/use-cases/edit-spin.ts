@@ -5,6 +5,7 @@ import { SpinNotFoundError } from "./errors/spin-not-found-error";
 import { AccessDeniedError } from "./errors/access-denied-error";
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { UserNotFoundError } from "./errors/user-not-found-error";
+import { BlockRepositoryInterface } from "@/repositories/block-repository-interface";
 
 interface EditSpinUseCaseRequest {
   id: string;
@@ -17,6 +18,7 @@ interface EditSpinUseCaseRequest {
   has_start_time?: boolean;
   end_date?: Date;
   has_end_time?: boolean;
+  participants: string[];
 }
 
 interface EditSpinUseCaseResponse {
@@ -28,6 +30,7 @@ export class EditSpinUseCase {
   constructor(
     private usersRepository: UsersRepositoryInterface,
     private spinRepository: SpinRepositoryInterface,
+    private blockRepository: BlockRepositoryInterface,
   ) {}
 
   async execute({
@@ -41,6 +44,7 @@ export class EditSpinUseCase {
     has_start_time,
     end_date,
     has_end_time,
+    participants,
   }: EditSpinUseCaseRequest): Promise<EditSpinUseCaseResponse> {
     if (
       start_date &&
@@ -60,16 +64,45 @@ export class EditSpinUseCase {
       throw new AccessDeniedError();
     }
 
-    const newSpin = await this.spinRepository.findByIdAndUpdate(id, {
-      title,
-      theme_color,
-      description,
-      place,
-      start_date,
-      has_start_time,
-      end_date,
-      has_end_time,
-    });
+    // Não pode se convidar
+    participants = participants.filter((id) => id !== organizer_id);
+
+    // não pode convidar quem te bloqueou nem que não existe
+    const participantsFiltered = await Promise.all(
+      participants.map(async (id) => {
+        const exists = await this.usersRepository.findById(id);
+        const userExists = !!exists;
+        if (userExists) {
+          const isBlocked = await this.blockRepository.wereYouBlocked(
+            organizer_id,
+            id,
+          );
+
+          return { id, isBlocked, userExists };
+        }
+        return { id, isBlocked: true, userExists };
+      }),
+    );
+
+    const filteredIds = participantsFiltered
+      .filter((item) => !item.isBlocked)
+      .filter((item) => item.userExists)
+      .map((item) => item.id);
+
+    const newSpin = await this.spinRepository.findByIdAndUpdate(
+      id,
+      {
+        title,
+        theme_color,
+        description,
+        place,
+        start_date,
+        has_start_time,
+        end_date,
+        has_end_time,
+      },
+      filteredIds,
+    );
 
     if (!newSpin) {
       throw new SpinNotFoundError();

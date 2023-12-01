@@ -26,11 +26,15 @@ export interface UpdateSpinRepositoryInterface {
 export interface SpinRepositoryInterface {
   getTotalSpinsNumber(organizer_id: string): Promise<number | null>;
   getPastSpinsNumber(organizer_id: string): Promise<number | null>;
-  createSpin(data: CreateSpinRepositoryInterface): Promise<Spin | null>;
+  createSpin(
+    data: CreateSpinRepositoryInterface,
+    participants: string[],
+  ): Promise<Spin | null>;
   findById(spin_id: string): Promise<Spin | null>;
   findByIdAndUpdate(
     spin_id: string,
     data: UpdateSpinRepositoryInterface,
+    participants: string[],
   ): Promise<Spin | null>;
   findByIdAndDelete(spin_id: string): Promise<Spin | null>;
 }

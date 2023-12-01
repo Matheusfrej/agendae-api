@@ -5,6 +5,7 @@ import { EndDateError } from "./errors/end-date-error";
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { UserNotFoundError } from "./errors/user-not-found-error";
 import { User } from "@sentry/node";
+import { BlockRepositoryInterface } from "@/repositories/block-repository-interface";
 
 interface CreateSpinUseCaseRequest {
   title: string;
@@ -16,6 +17,7 @@ interface CreateSpinUseCaseRequest {
   has_start_time: boolean;
   end_date?: Date;
   has_end_time: boolean;
+  participants: string[];
 }
 
 interface CreateSpinUseCaseResponse {
@@ -27,6 +29,7 @@ export class CreateSpinUseCase {
   constructor(
     private spinRepository: SpinRepositoryInterface,
     private usersRepository: UsersRepositoryInterface,
+    private blockRepository: BlockRepositoryInterface,
   ) {}
 
   async execute({
@@ -39,6 +42,7 @@ export class CreateSpinUseCase {
     has_start_time,
     end_date,
     has_end_time,
+    participants,
   }: CreateSpinUseCaseRequest): Promise<CreateSpinUseCaseResponse> {
     if (
       start_date &&
@@ -48,17 +52,45 @@ export class CreateSpinUseCase {
       throw new EndDateError();
     }
 
-    const spin = await this.spinRepository.createSpin({
-      title,
-      theme_color,
-      organizer_id,
-      description,
-      place,
-      start_date,
-      has_start_time,
-      end_date,
-      has_end_time,
-    });
+    // Não pode se convidar
+    participants = participants.filter((id) => id !== organizer_id);
+
+    // não pode convidar quem te bloqueou nem que não existe
+    const participantsFiltered = await Promise.all(
+      participants.map(async (id) => {
+        const exists = await this.usersRepository.findById(id);
+        const userExists = !!exists;
+        if (userExists) {
+          const isBlocked = await this.blockRepository.wereYouBlocked(
+            organizer_id,
+            id,
+          );
+
+          return { id, isBlocked, userExists };
+        }
+        return { id, isBlocked: true, userExists };
+      }),
+    );
+
+    const filteredIds = participantsFiltered
+      .filter((item) => !item.isBlocked)
+      .filter((item) => item.userExists)
+      .map((item) => item.id);
+
+    const spin = await this.spinRepository.createSpin(
+      {
+        title,
+        theme_color,
+        organizer_id,
+        description,
+        place,
+        start_date,
+        has_start_time,
+        end_date,
+        has_end_time,
+      },
+      filteredIds,
+    );
 
     if (!spin) {
       throw new CreateSpinError();

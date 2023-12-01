@@ -1,4 +1,4 @@
-import { Spin } from "@prisma/client";
+import { Spin, ParticipateSpin } from "@prisma/client";
 import {
   CreateSpinRepositoryInterface,
   SpinRepositoryInterface,
@@ -43,9 +43,24 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
     return spinsCount;
   }
 
-  async createSpin(data: CreateSpinRepositoryInterface): Promise<Spin | null> {
+  async createSpin(
+    data: CreateSpinRepositoryInterface,
+    participants: string[],
+  ): Promise<Spin | null> {
     const spin = await prisma.spin.create({
       data,
+    });
+
+    const formattedParticipants = participants.map((id) => {
+      return {
+        spin_id: spin.id,
+        received_id: id,
+      };
+    });
+
+    await prisma.participateSpin.createMany({
+      data: formattedParticipants,
+      skipDuplicates: true,
     });
 
     return spin;
@@ -61,11 +76,12 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
     return spin;
   }
 
-  findByIdAndUpdate(
+  async findByIdAndUpdate(
     spin_id: string,
     data: UpdateSpinRepositoryInterface,
+    participants: string[],
   ): Promise<Spin | null> {
-    const spin = prisma.spin.update({
+    const spin = await prisma.spin.update({
       where: {
         id: spin_id,
       },
@@ -79,6 +95,53 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
         end_date: data.end_date === undefined ? null : data.end_date,
         has_end_time: data.has_end_time,
       },
+    });
+
+    await prisma.participateSpin.deleteMany({
+      where: {
+        AND: [
+          {
+            spin_id,
+          },
+          {
+            NOT: {
+              status: 2,
+            },
+          },
+        ],
+      },
+    });
+
+    /* 
+      Percorre pelos novos participantes, criando
+      um novo convite se ainda não tinha sido convidado
+      e reconvidando quem recusou e foi reconvidado.
+    */
+    participants.forEach(async (id) => {
+      const participant = await prisma.participateSpin.findFirst({
+        where: {
+          spin_id,
+          received_id: id,
+        },
+      });
+
+      if (participant) {
+        await prisma.participateSpin.update({
+          where: {
+            id: participant.id,
+          },
+          data: {
+            status: 0,
+          },
+        });
+      } else {
+        await prisma.participateSpin.create({
+          data: {
+            spin_id,
+            received_id: id,
+          },
+        });
+      }
     });
 
     return spin;

@@ -20,6 +20,7 @@ export async function createSpin(
       has_start_time: z.coerce.boolean(),
       end_date: z.coerce.date().optional(),
       has_end_time: z.coerce.boolean(),
+      participants: z.array(z.string()),
     });
 
     const spinUseCase = makeCreateSpinUseCase();
@@ -35,6 +36,7 @@ export async function createSpin(
       has_start_time,
       end_date,
       has_end_time,
+      participants,
     } = spinBodySchema.parse(req.body);
 
     const { spin, organizer } = await spinUseCase.execute({
@@ -47,6 +49,7 @@ export async function createSpin(
       has_start_time,
       end_date,
       has_end_time,
+      participants,
     });
 
     const response = {
