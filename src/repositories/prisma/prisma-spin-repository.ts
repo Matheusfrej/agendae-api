@@ -1,4 +1,4 @@
-import { Spin, ParticipateSpin } from "@prisma/client";
+import { Spin } from "@prisma/client";
 import {
   CreateSpinRepositoryInterface,
   SpinRepositoryInterface,
