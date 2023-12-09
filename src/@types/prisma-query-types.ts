@@ -1,5 +1,5 @@
 import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
-import { Prisma } from "@prisma/client";
+import { Prisma, Spin } from "@prisma/client";
 
 const prismaUsersRepository = new PrismaUsersRepository();
 
@@ -20,9 +20,7 @@ type getParticipantsType = {
 type getNotificationsType = {
   ParticipateSpin: {
     updated_at: Date;
-    spin: {
-      id: string;
-      title: string;
+    spin: Spin & {
       organizer: {
         id: string;
         name: string;

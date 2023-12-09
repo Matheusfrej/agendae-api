@@ -1,5 +1,5 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
-import { User } from "@prisma/client";
+import { Spin, User } from "@prisma/client";
 
 interface NotificationsUseCaseRequest {
   user_id: string;
@@ -8,6 +8,7 @@ interface NotificationsUseCaseRequest {
 interface TransformedNotification {
   type: string;
   id?: string;
+  spin?: Spin;
   user?: { [P in keyof User]?: User[P] };
   organizer?: {
     id: string;
@@ -57,8 +58,8 @@ export class NotificationsUseCase {
         for (const spin of notification.ParticipateSpin) {
           transformedNotifications.push({
             type: "spin",
-            organizer: spin.spin.organizer,
             id: spin.spin.id,
+            spin: spin.spin,
             title: spin.spin.title,
             updated_at: spin.updated_at,
           });

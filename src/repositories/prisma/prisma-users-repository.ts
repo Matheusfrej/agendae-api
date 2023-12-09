@@ -183,17 +183,16 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
           },
           select: {
             spin: {
-              select: {
+              include: {
                 organizer: {
                   select: {
                     id: true,
                     name: true,
                     nickname: true,
+                    email: true,
                     profile_pic: true,
                   },
                 },
-                id: true,
-                title: true,
               },
             },
             updated_at: true,
