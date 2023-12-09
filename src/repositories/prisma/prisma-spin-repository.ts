@@ -97,19 +97,22 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
       },
     });
 
-    await prisma.participateSpin.deleteMany({
+    const currentParticipants = await prisma.participateSpin.findMany({
       where: {
-        AND: [
-          {
-            spin_id,
-          },
-          {
-            NOT: {
-              status: 2,
-            },
-          },
-        ],
+        spin_id,
+        NOT: {
+          status: 2,
+        },
       },
+    });
+    currentParticipants.forEach(async (currParticipant) => {
+      if (!participants.includes(currParticipant.received_id)) {
+        await prisma.participateSpin.delete({
+          where: {
+            id: currParticipant.id,
+          },
+        });
+      }
     });
 
     /* 
@@ -125,20 +128,20 @@ export class PrismaSpinRepository implements SpinRepositoryInterface {
         },
       });
 
-      if (participant) {
+      if (!participant) {
+        await prisma.participateSpin.create({
+          data: {
+            spin_id,
+            received_id: id,
+          },
+        });
+      } else if (participant.status === 2) {
         await prisma.participateSpin.update({
           where: {
             id: participant.id,
           },
           data: {
             status: 0,
-          },
-        });
-      } else {
-        await prisma.participateSpin.create({
-          data: {
-            spin_id,
-            received_id: id,
           },
         });
       }

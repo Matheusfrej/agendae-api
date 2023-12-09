@@ -139,6 +139,10 @@ export class PrismaParticipateSpinRepository
           select: {
             id: true,
             name: true,
+            email: true,
+            nickname: true,
+            friend_code: true,
+            is_active: true,
             profile_pic: true,
           },
         },
