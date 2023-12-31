@@ -6,6 +6,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string(),
   PORT: z.coerce.number().default(3000),
   SENTRY_URL: z.string(),
+  RESEND_API_KEY: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

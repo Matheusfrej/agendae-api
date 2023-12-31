@@ -20,12 +20,15 @@ import { notifications } from "./notifications";
 import { refresh } from "./refresh";
 import { getUserByFriendCode } from "./get-user-by-friend-code";
 import { verifyChangePasswordJWT } from "@/http/middlewares/verify-change-password-jwt";
+import { sendResetPasswordLink } from "./send-reset-password-link";
 
 export const usersRoutes = express.Router();
 
 usersRoutes.post("/users/login", login);
 
 usersRoutes.patch("/token/refresh", refresh);
+
+usersRoutes.get("/users/change-password/:email", sendResetPasswordLink);
 
 usersRoutes.post(
   "/users/change-password",
