@@ -8,7 +8,9 @@ export const getParsedBody = (emailType: EmailType) => {
   );
 
   Object.entries(emailType.params).forEach(([key, value]) => {
-    html = html.replace(`{{${key}}}`, value);
+    while (html.includes(`{{${key}}}`)) {
+      html = html.replace(`{{${key}}}`, value);
+    }
   });
 
   return html;
