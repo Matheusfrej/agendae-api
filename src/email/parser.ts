@@ -6,7 +6,7 @@ export const getParsedBody = (emailType: EmailType) => {
   let html: string;
   if (env.NODE_ENV === "production") {
     html = fs.readFileSync(
-      path.join("/email/", "/templates/", `${emailType.type}.txt`),
+      path.join("./templates/", `${emailType.type}.txt`),
       "utf-8",
     );
   } else {
