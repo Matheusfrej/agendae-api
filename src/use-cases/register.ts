@@ -1,8 +1,9 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
-import { generateFriendCode } from "@/utils/generate-friend-code";
+import { generateFriendCode } from "@/utils/generators/generate-friend-code";
 import { User } from "@prisma/client";
 import { hash } from "bcryptjs";
+import { SALT_LENGTH } from "../utils/constants/number";
 
 interface RegisterUseCaseRequest {
   name: string;
@@ -24,7 +25,7 @@ export class RegisterUseCase {
     email,
     password,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const password_hash = await hash(password, 6);
+    const password_hash = await hash(password, SALT_LENGTH);
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
 

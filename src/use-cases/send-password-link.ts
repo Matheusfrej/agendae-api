@@ -1,6 +1,6 @@
 import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { EmailNotFoundError } from "./errors/email-not-found";
-import { generateChangePasswordToken } from "@/utils/generate-reset-password-token";
+import { generateChangePasswordToken } from "@/utils/generators/generate-reset-password-token";
 import { getParsedBody } from "@/email/parser";
 import { resend } from "@/email/client";
 
