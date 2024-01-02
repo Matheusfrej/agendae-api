@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "start": "node build/server.js",
-    "build": "tsup src --out-dir build",
+    "start": "ts-node --transpileOnly -r tsconfig-paths/register src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -34,6 +33,8 @@
     "express": "4.18.2",
     "jsonwebtoken": "9.0.2",
     "resend": "2.1.0",
+    "tsconfig-paths": "4.2.0",
+    "tscpaths": "0.0.9",
     "zod": "3.22.2"
   }
 }
