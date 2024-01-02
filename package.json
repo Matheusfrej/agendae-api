@@ -7,7 +7,6 @@
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build && cpy ./src/email/templates/RESET_PASSWORD.txt ./build/email/templates --flat",
-    "postbuild": "cpy RESET_PASSWORD.txt ./build/email/templates",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
