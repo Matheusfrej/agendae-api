@@ -3,7 +3,7 @@ import path from "path";
 
 export const getParsedBody = (emailType: EmailType) => {
   let html = fs.readFileSync(
-    path.join(__dirname, `\\templates\\${emailType.type}.html`),
+    path.join(__dirname, `\\templates\\${emailType.type}.txt`),
     "utf-8",
   );
 
