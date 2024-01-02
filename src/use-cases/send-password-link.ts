@@ -27,8 +27,6 @@ export class SendPasswordLinkUseCase {
 
     const resetPasswordCode = generateResetPasswordCode();
 
-    console.log(resetPasswordCode);
-
     const jwtWithEmailAndCode = generateChangePasswordToken(
       email,
       resetPasswordCode,
