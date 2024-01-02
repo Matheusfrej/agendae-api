@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src --out-dir build && cpy ./src/email/templates/RESET_PASSWORD.txt ./build/email/templates --flat",
+    "postbuild": "cpy RESET_PASSWORD.txt ./build/email/templates",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "@sentry/node": "7.80.0",
     "bcryptjs": "2.4.3",
     "cors": "2.8.5",
+    "cpy-cli": "5.0.0",
     "dotenv": "16.3.1",
     "express": "4.18.2",
     "jsonwebtoken": "9.0.2",
