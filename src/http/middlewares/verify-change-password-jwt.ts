@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 interface ChangePasswordToken {
   email: string;
+  code: string;
   iat: number;
   exp: number;
 }
@@ -14,12 +15,15 @@ export async function verifyChangePasswordJWT(
   next: NextFunction,
 ) {
   try {
-    const token = req.body.email;
-    console.log(token);
+    const token = req.body.token;
 
-    const { email } = jwt.verify(token, env.JWT_SECRET) as ChangePasswordToken;
+    const { email, code } = jwt.verify(
+      token,
+      env.JWT_SECRET,
+    ) as ChangePasswordToken;
 
     req.body.email = email;
+    req.body.original_code = code;
     next();
   } catch (err) {
     return res.status(401).send({ message: "Não autorizado." });

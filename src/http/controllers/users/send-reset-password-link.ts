@@ -17,9 +17,9 @@ export async function sendResetPasswordLink(
 
     const { email } = sendResetPasswordLinkParamsSchema.parse(req.params);
 
-    await sendPasswordLinkUseCase.execute({ email });
+    const { token } = await sendPasswordLinkUseCase.execute({ email });
 
-    return res.status(200).send();
+    return res.status(200).send({ token });
   } catch (err) {
     if (err instanceof PreConditionalError) {
       return res.status(err.httpCode).send({ message: err.message });

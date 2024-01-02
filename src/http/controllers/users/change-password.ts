@@ -9,18 +9,23 @@ export async function changePassword(
   next: NextFunction,
 ) {
   try {
+    // frontend envia token, code e password
     const changePasswordBodySchema = z.object({
+      code: z.string(),
       email: z.string().email(),
       password: z.string().min(6),
     });
 
     const changePasswordUseCase = makeChangePasswordUseCase();
 
-    const { email, password } = changePasswordBodySchema.parse(req.body);
+    const { code, email, password } = changePasswordBodySchema.parse(req.body);
+    const original_code = req.body.original_code;
 
     await changePasswordUseCase.execute({
       email,
       password,
+      code,
+      original_code,
     });
 
     return res.status(200).send();
